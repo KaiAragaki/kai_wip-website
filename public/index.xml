@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Personal Website of Kai Aragaki</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Personal Website of Kai Aragaki</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Sun, 03 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>I&amp;rsquo;m Kai Aragaki. I&amp;rsquo;m currently a pharmacology PhD candidate at Johns Hopkins, on track to graduate in 2024.&#xA;I have significant experience in both wet-lab and dry-lab techniques, and always delighted to learn more whenever possible. I have about 8 years of wet lab experience, and about 7 years of experience with R.&#xA;Some of the things I&amp;rsquo;ve gotten into over the years -&#xA;Wet lab:&#xA;Cell culture (2D and 3D), Western blotting, qPCR, DNA and RNA library preparation, invasion/migration assays, flow cytometry, molecular cloning&amp;hellip; Dry lab:</description>
+    </item>
+    <item>
+      <title>Surviving Lawlessness, Pt. 1</title>
+      <link>http://localhost:1313/posts/2023-10-18-surviving-lawlessness-pt-1/</link>
+      <pubDate>Wed, 18 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-10-18-surviving-lawlessness-pt-1/</guid>
+      <description>Introduction Like it or not, things are happening all the time. Even worse, you don&amp;rsquo;t know when a lot of these things will happen. Sure, you might have a general idea - kids learn to walk around the age of 1 or so, students tend to graduate after 4 years of undergraduate school, and dogs learn to shake after a certain number of treats and head scratches - but you don&amp;rsquo;t know exactly when these things happen.</description>
+    </item>
+    <item>
+      <title>What&#39;s a Wilcoxon signed-rank test?</title>
+      <link>http://localhost:1313/posts/2022-11-12-what-s-a-wilcoxon-signed-rank-test/</link>
+      <pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-11-12-what-s-a-wilcoxon-signed-rank-test/</guid>
+      <description>I was tired of looking up what various statistical tests do, so in hopes of remembering, I wanted to try the &amp;rsquo;learn by teaching&amp;rsquo; method. Worse comes to worst, I can just look back at this if need be.&#xA;That was five days ago. After five days of looking at poorly scanned PDFs of books published in the last millennium, formulae that look more like hexes than anything else, diving down into the C source code of R, and, of course, plenty of time on Wikipedia - I think I almost have a grip as to what&amp;rsquo;s going on.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/photos/test1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/photos/test1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>analog nightmares</title>
+      <link>http://localhost:1313/posts/photos-analog-nightmares/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/photos-analog-nightmares/</guid>
+      <description> </description>
+    </item>
+    <item>
+      <title>Crimes</title>
+      <link>http://localhost:1313/posts/photos-crimes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/photos-crimes/</guid>
+      <description> </description>
+    </item>
+    <item>
+      <title>Landscapes</title>
+      <link>http://localhost:1313/posts/photos-landscapes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/photos-landscapes/</guid>
+      <description> </description>
+    </item>
+    <item>
+      <title>Museum of Unfinished Animals</title>
+      <link>http://localhost:1313/posts/photos-museum-of-unfinished-animals/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/photos-museum-of-unfinished-animals/</guid>
+      <description> </description>
+    </item>
+  </channel>
+</rss>

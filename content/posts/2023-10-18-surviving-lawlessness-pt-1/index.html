@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kai">
+<meta name="dcterms.date" content="2023-10-18">
+
+<title>Surviving Lawlessness, Pt. 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Surviving Lawlessness, Pt. 1</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kai </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 18, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Like it or not, things are happening all the time. Even worse, you don’t know when a lot of these things will happen. Sure, you might have a general idea - kids learn to walk around the age of 1 or so, students tend to graduate after 4 years of undergraduate school, and dogs learn to shake after a certain number of treats and head scratches - but you don’t know <em>exactly</em> when these things happen. However, if you’re clever, you can work up a handful of tools to help predict when something might happen. You’ve given your dog 20 treats and head pats - what is the probability that he’s finally going to nail the handshake thing on the next one? Or maybe you provide a group of students with a dedicated tutor - do they graduate faster? These are the kinds of questions you can answer if you are willing to wade into the mires of statistics. Don’t worry. We’re going to do this together. I even brought you a snorkel.</p>
+</section>
+<section id="definitions" class="level1">
+<h1>Definitions</h1>
+<p>You - like me - are only learning about this so you can impress all your friends at dinner parties. You go to many of these parties because you are very popular and normal. But in order to woo your friends, you need to know what to call these things.</p>
+<p>All the above mentioned scenarios - dog shaking, baby walking, student graduating - they’re <strong>events</strong>, and they take a certain amount of time to happen. So the analysis of them is called <strong>time-to-event analysis</strong>. Easy enough. Sometimes, in the context of human well-being (or lack thereof) it’s called <strong>survival analysis</strong> - but they’re the same thing.</p>
+</section>
+<section id="teaching-cats-to-sing" class="level1">
+<h1>Teaching cats to sing</h1>
+<p>A book about time-to-event analysis might get a little hung up on things that break, die, or wear out. That’s a little depressing. So when possible, I’m going to talk about other subjects. Particularly cats. Plus, thinking about how this applies to, say, human survival is a good mental exercise.</p>
+<p>Let’s imagine that all cats can sing. You haven’t heard many cats sing because no one has bothered to try to train them. But with enough training, <em>all</em> cats can sing. Note - no cats are <em>born</em> able to sing. They need training<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>You’ve been training your cat since it was born, and it’s been a couple months now: no singing. Should you be worried?</p>
+<section id="the-probability-density-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-probability-density-function">The probability density function</h2>
+<p>You poke around the neighborhood and see how your neighbors are faring teaching their cats to sing. They’ve all been training their cats since birth<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and told you the age that the cat started singing. You make a little plot:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It like most cats are taking more than a year or two to learn how to sing. Your fears are put at ease for a moment, but you’re not an idiot: you know just a few samples can be misleading<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. You begin a cat census, asking everyone who has started training their cat from birth how long it took them for their cats to sing. The best you can do is scrape together 100 people <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It looks like somewhere between 1-2 years is the sweet spot for when most cats get their voice. You think about plotting these results a different way - a density histogram.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It looks a bit lumpy. You want to know if there truly is a ‘second wind’ of learning at around 5 years or if it’s just statistical noise - but you really left it all out on the field when you made all those calls for the cat census. You don’t think you could gather even <em>more</em> cat data.</p>
+<p>Whenever you are faced with these issues, you know just where to go: the lady with completely black eyes that lives in the woods in a dilapidated cottage. She give you (in exchange for a surprisingly large amount of viscera from forest fauna) a beautiful plot<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> that shows the theoretical distribution of time-to-cat-singing. It’s what you would have gotten if you had done an infinite cat census:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You notice that the highest peak is at around 1 year of age. This is around the time where most cats will learn to sing, but it looks like it’s possible for cats so sing earlier and later, too. (Note that I mentioned earlier that ALL cats will learn how to sing.)</p>
+<p>This plot is the visual representation of a <strong>probability density function</strong>, or a <strong>pdf</strong><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. To explain why it’s called that, a trick question: What is the probability that a cat will learn to sing on the instant of its 2nd birthday? Answer: 0. Why? Because that instant is such a very very very very (etc) short amount of time. I don’t care that the plot shows a high peak at that point - if we’re betting on when your cat would sing, and you say ‘the instant it turns 1’, I’m betting everything I’ve got against you.</p>
+<p>To explain by way of analogy, density can also refer to materials. Osmium is the densest naturally occurring material on Earth with a density of 22.59g/cm³. So, tell me: how heavy is it in the smallest possible unit of volume? I’m not even talking mm, or nm - not even angstroms. I’m talking about an infinitesimally small point in space. You know the answer. It’s 0g.</p>
+<p>The probability density relates to our physical density in that physical density measures mass over volume, but this particular, time-to-event probability density measures events over time. There are other probability densities - like people’s heights, for instance - that do not measure densities over time. But we will largely be concerned with events/time densities.</p>
+</section>
+<section id="doing-stuff-with-the-pdf" class="level2">
+<h2 class="anchored" data-anchor-id="doing-stuff-with-the-pdf">Doing stuff with the pdf</h2>
+<p>Water has a convenient density of around 1g/mL. Knowing this, and knowing someone has 10mL of water, you can tell them that they have 10g of water.</p>
+<p>Just like you can find out how much mass of a substance there is by knowing the volume and density, you can also figure out the probability of an event happening by knowing the pdf and the time range.</p>
+<p>Before we go any further, some math notation. I’m going to call the pdf <span class="math inline">\(f\)</span>, and some arbitrary time <span class="math inline">\(t\)</span>. So <span class="math inline">\(f(t)\)</span> is the probability of some event at time <span class="math inline">\(t\)</span> (which is, remember, 0).</p>
+<p>This function isn’t as useless as it seems. If we multiply the pdf by time, we should get the probability of an event happening over that range of time. Except…our probability varies over time. With physical density, it didn’t vary across the volume of the object (provided it’s a pure substance), so we could just multiply two constant numbers (the volume times the density) together and call it a day. We could do that if cats learned to sing with a constant probability over time, but they don’t: as we saw, there’s a higher probability at age 1, and lower everywhere else. The probability of a cat learning to sing from age 4 to 6 is much lower than from age 1 to 3.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It’s almost like…it matters…how much area is under the curve</p>
+<section id="uh-oh" class="level3">
+<h3 class="anchored" data-anchor-id="uh-oh">Uh oh</h3>
+<p>Yeah. I know. Calculus. Integrals, to be specific. Unfortunately, they’re very good at finding the area under the curve in a very general way.</p>
+</section>
+<section id="integrating-the-pdf" class="level3">
+<h3 class="anchored" data-anchor-id="integrating-the-pdf">Integrating the pdf</h3>
+<p>One useful function to have to know what the probability that Fluffy should have learned to sing by now - that is, the integral from birth ( <span class="math inline">\(t = 0\)</span> ) to now ( <span class="math inline">\(t\)</span> ).</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><span class="math display">\[
+F(t)=Pr(T≤t)=\int_{0}^{t}f(x)dx
+\]</span></p>
+<p>We call that function <span class="math inline">\(F(t)\)</span>. In the medical field, you might consider this function the probability that a patient will have died between, say, when they were diagnosed ( <span class="math inline">\(t = 0\)</span> ) and now ( <span class="math inline">\(t\)</span> ).</p>
+<p>Another useful function is one that tells you the probability of Fluffy still not being able to sing at some time ( <span class="math inline">\(t\)</span> ). This is the integral from <span class="math inline">\(t\)</span> to <span class="math inline">\(∞\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><span class="math display">\[
+S(t)=Pr(T≥t)=\int^{∞}_{t}f(x)dx
+\]</span></p>
+<p>In the medical field, this might be the probability that a patient will survive until <em>at least</em> time <span class="math inline">\(t\)</span>. This is why it’s called the <em>survival function</em> and is denoted by <span class="math inline">\(S\)</span>.</p>
+<p><span class="math inline">\(S(t)\)</span> has some important properties. It always goes down, never up - also known as <em>monotone decreasing</em>. It also starts at 1 (that is, <span class="math inline">\(S(0) = 1\)</span>. And it ends at 0 ( <span class="math inline">\(S(∞) = 0\)</span> ). Thus, no cats are born singing, and all cats can learn to sing.</p>
+<p>Side note - <span class="math inline">\(S(t)\)</span> /has/ to be monotone decreasing because it is the integral of a function ( <span class="math inline">\(f(t)\)</span> ) that can never be negative<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. <span class="math inline">\(f(t)\)</span> can never be negative, because negative probabilities do not make sense. It either happens or it doesn’t - it can’t ‘anti-happen’.</p>
+<p>So, <span class="math inline">\(F(t)\)</span> is the probability that an event will have occurred by time <span class="math inline">\(t\)</span>, while <span class="math inline">\(S(t)\)</span> is the probability that an event will NOT have occurred by time <span class="math inline">\(T\)</span>.</p>
+<p>It’s important to note that if your patient had a 90% chance of not making it to time <span class="math inline">\(t\)</span> (that is, <span class="math inline">\(F(t) = 0.9\)</span>), yet they are still alive, it does not mean that your patient has only a 10% chance of dying in the future! That would be bonkers. You roll the dice on that patient and they have a 9/10 chance of immortality? No.&nbsp;What this means is that in all the patients seen previously, 90% of them didn’t make it this long, and 10% of them made it longer. Unfortunately, in the end, death still comes for us all. We’ll learn how to properly calculate their probability of dying in the future in the next section.</p>
+</section>
+</section>
+<section id="conditional-probability" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-probability">Conditional probability</h2>
+<p>So, a cat has trained for 7 years and sits in front of you, utterly mute. Suppose we naively tried to use our pdf to determine the probability of this cat learning to sing some time in the future:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We calculate the area under the curve to be…0.007. Or 0.7%. Are we doomed to have a cat that can’t sing???</p>
+<p>No.&nbsp;Remember, we assumed that all cats will EVENTUALLY learn to sing. But how do we take this in to account? We have to take into account all the time that the cat HASN’T learned how to sing. Another way to say this is that it needs to be <em>conditional</em> on the fact that the cat has existed this long without learning to sing. It’s kind of like going up to a red light and waiting there for a long time. Each second that ticks by means the probability of it turning green increases, because it <em>has</em> to turn green eventually<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
+<p>Let’s put the question we’re actually asking into words:</p>
+<p>Given that our cat has not yet sung at age 7, what is the probability that this cat will learn to sing in the next…10/5/1 year(s)?</p>
+<p>Or rather:</p>
+<p><span class="math display">\[
+Pr(t≤T &lt; t + Δt|T≥t)
+\]</span></p>
+<p>The bar ( <span class="math inline">\(|\)</span> ) means ‘given’. So, assuming that our cat has gone this long without singing ( <span class="math inline">\(| T≤t\)</span> ) what is <span class="math inline">\(Pr(t≤T &lt; t + Δt)\)</span> (the probability that it’ll learn how to sing in this next time frame ( <span class="math inline">\(Δt\)</span> ))?</p>
+<p>This is what we WANT. How we get it requires a little rearranging - but we <em>can</em> do it. To pull this off, we need to know Bayes theorem. This guy Bayes is super hot right now as well as super dead, but we don’t need to go in to that. What we need to know is that he proved this:</p>
+<p><span class="math display">\[
+Pr(A|B) = \frac{\textcolor{red}{Pr(B|A)}\textcolor{blue}{Pr(A)}}{\textcolor{green}{Pr(B)}}
+\]</span></p>
+<p>If we compare it to our previous equation, we can match it up by setting <span class="math inline">\(A = t≤T &lt; t + Δt\)</span> and <span class="math inline">\(B = T≥t\)</span>. Substituting in our own <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, we get:</p>
+<p><span class="math display">\[
+Pr(t≤T &lt; t + Δt|T≥t) = \frac{\textcolor{red}{Pr(T≥t|t≤T &lt; t + Δt)}\textcolor{blue}{Pr(t≤T &lt; t + Δt)}}{\textcolor{green}{Pr(T≥t)}}
+\]</span></p>
+<p>We can work with this. Let’s go through the chunks one at a time:</p>
+<p><span class="math display">\[
+\textcolor{red}{Pr(T≥t|t≤T &lt; t + Δt)}
+\]</span></p>
+<p>Reading this out: What is the probability that our cat has learned to sing either now or in the future, given that our cat has learned to sing now or a little bit in the future?</p>
+<p>You might be able to sense the repetition here. What’s the probability of something happening given it’s happened? Well…it’s guaranteed. It happened. 100%. 1.</p>
+<p><span class="math display">\[
+\textcolor{red}{Pr(T≥t|t≤T &lt; t + Δt)} = \textcolor{red}{1}
+\]</span></p>
+<p>Next chunk:</p>
+<p><span class="math display">\[
+\textcolor{blue}{Pr(t≤T &lt; t + Δt)}
+\]</span></p>
+<p>This is the probability that your cat will sing between now and a bit in the future. We know this too - it’s from the pdf. It’s just a tiny integral:</p>
+<p><span class="math display">\[
+\textcolor{blue}{Pr(t≤T &lt; t + Δt)} = \textcolor{blue}{∫_{t}^{t + Δt}f(x)dx}
+\]</span></p>
+<p>And finally:</p>
+<p><span class="math display">\[
+\textcolor{green}{Pr(T≥t)}
+\]</span></p>
+<p>We’ve seen this before, exactly - It’s <span class="math inline">\(S(t)\)</span></p>
+<p><span class="math display">\[
+\textcolor{green}{Pr(T≥t)} = \textcolor{green}{S(t)}
+\]</span></p>
+<p>All together:</p>
+<p><span class="math display">\[
+Pr(t≤T &lt; t + Δt|T≥t) = \frac{\textcolor{red}{1}×\textcolor{blue}{∫_{t}^{t + Δt}f(x)dx}}{\textcolor{green}{S(t)}}
+\]</span></p>
+<p>This is the probability of experiencing some event in a given time frame, given no event has been observed previously. This last ‘conditional’ part is important, since a dead guy has no chance of dying in the future.</p>
+</section>
+<section id="the-hazard-rate" class="level2">
+<h2 class="anchored" data-anchor-id="the-hazard-rate">The hazard rate</h2>
+<p>It can be mathematically useful to determine the ‘instantaneous rate’ of an event. This is the <strong>hazard rate</strong>, or <strong>hazard function</strong>. The interpretation of this is quite challenging, and in my personal opinion it tends to be more useful when used <em>for</em> other things, rather than as itself.</p>
+<p>It’s just the probability we calculated above, divided by the same time frame ( <span class="math inline">\(Δt\)</span> ), as the time frame approaches 0. A higher value means greater imminence of the event, a smaller number means lower imminence. It can go up and down, but it can’t be negative. It can be way, way bigger than 1, so it’s not a probability.</p>
+<p><span class="math display">\[
+h(x) = \lim_{Δt → 0} \frac{∫_{t}^{t + Δt}f(x)dx}{S(t)} = \frac{f(x)}{S(t)}
+\]</span></p>
+<p>Often, hazard functions go up over time - like in our cat example, and also in human mortality. But they don’t always need to go up. Sometimes the longer you’ve been around, the longer you WILL be around (known as the ‘Lindy effect’). But the cumulative hazard DOES need to go up. So while it might be less risky to at each moment to keep on going, the amount of risk you experience is still non-zero, and it does get added to the ledger of risk you’ve experienced all time. It’s like the risk of making a mistake when learning to play the piano. If you’ve miraculously managed to never make a mistake during the beginning stages, the risk of you making a mistake as you get better goes down. But over a long enough time, you still risk making a mistake, even if you are quite good.</p>
+<p>I’m not super jazzed about a practical interpretation of hazard functions, but here I go:</p>
+<p>This hazard function represents the expected number of events for a given time period, assuming that the event hasn’t already happened. We could interpret <span class="math inline">\(h(10) = 100\)</span> to mean that we would expect a 10 year old cat that hasn’t learned to sing 100 times over during the next unit of time (in this case, years). That is, if our cat learned to sing, and then had the memory deleted from its memory, it could learn, then forget, then learn, then forget..100 times over during the course of a year.</p>
+<p>The integral of the hazard rate - known as the ‘cumulative hazard’ - is denoted by</p>
+<p><span class="math display">\[
+H(t) =∫_{0}^{t}h(x)dx
+\]</span></p>
+<p>It’s essentially ‘how much risk have you experienced from time 0 to now’</p>
+</section>
+<section id="all-previous-functions-in-terms-of-the-hazard-rate" class="level2">
+<h2 class="anchored" data-anchor-id="all-previous-functions-in-terms-of-the-hazard-rate">All previous functions in terms of the hazard rate</h2>
+<section id="sx" class="level3">
+<h3 class="anchored" data-anchor-id="sx">S(x)</h3>
+<p>Really, all these equations are different ways of representing the same data, when you get right down to it. As such, you can express <span class="math inline">\(S(t)\)</span> and <span class="math inline">\(f(t)\)</span> in terms of <span class="math inline">\(h(t)\)</span>, giving you a handy ‘one equation to rule them all’.</p>
+<p>You can do this with a little work, first remembering that we showed that</p>
+<p><span class="math display">\[
+h(x) = \frac{f(x)}{S(x)}
+\]</span></p>
+<p>If you remember that</p>
+<p><span class="math display">\[
+S(t) = ∫_{t}^{∞}f(x)dx
+\]</span></p>
+<p>You can determine that</p>
+<p><span class="math display">\[
+S^{′}(t) = \frac{d}{dt}∫_{t}^{∞}f(x)dx = 0 - f(t) ⇒
+\]</span></p>
+<p><span class="math display">\[
+f(t) = -S^{'}(t)
+\]</span></p>
+<p>(The arrow ( <span class="math inline">\(⇒\)</span> ) means ‘implies’, or rather, ‘it follows’, or some other fancy phrase that means ‘this next thing is true because of what I just said’)</p>
+<p>Now we plug this back in to our previous equation, giving</p>
+<p><span class="math display">\[
+h(t) = \frac{f(t)}{S(t)} = \frac{S′(t)}{S(t)}
+\]</span></p>
+<p>If you remember, the derivative of <span class="math inline">\(ln(x)\)</span> is <span class="math inline">\(1/x\)</span>. If you remember the chain rule, you’ll note that <span class="math inline">\(\frac{S′(t)}{S(t)}\)</span> is just the derivative of <span class="math inline">\(-ln(S(t))\)</span>. So we can write:</p>
+<p><span class="math display">\[
+h(t) = \frac{S^{′}(t)}{S(t)} = -\frac{d}{dt}ln(S(t))
+\]</span></p>
+<p>We can solve for <span class="math inline">\(S(u)\)</span> where <span class="math inline">\(u\)</span> is some specific time (I’d normally use <span class="math inline">\(t\)</span>, but we’re already using it here as just some variable, like <span class="math inline">\(x\)</span>) by integrating both sides from <span class="math inline">\(0\)</span> to <span class="math inline">\(u\)</span>:</p>
+<p><span class="math display">\[
+ln(S(t))\vert_{0}^{u}=-∫_{0}^{u}h(t)dt
+\]</span></p>
+<p>This is equal to:</p>
+<p><span class="math display">\[
+ln(S(u)) - ln(S(0))
+\]</span></p>
+<p>We know that survival chance <em>must</em> start at 1, so <span class="math inline">\(S(0) = 1\)</span>, and <span class="math inline">\(ln(1) = 0\)</span>. So,</p>
+<p><span class="math display">\[
+ln(S(u)) - ln(S(0)) = ln(S(u)) = -∫_{0}^{u}h(t)dt
+\]</span></p>
+<p>Raising both sides by <span class="math inline">\(e\)</span>, we get</p>
+<p><span class="math display">\[
+S(u) = e^{-∫_{0}^{u}h(t)dt}
+\]</span></p>
+</section>
+<section id="fx" class="level3">
+<h3 class="anchored" data-anchor-id="fx">f(x)</h3>
+<p>You can also use the fact that</p>
+<p><span class="math display">\[
+h(t) = \frac{f(t)}{S(t)} ⇒
+\]</span></p>
+<p><span class="math display">\[
+S(t) = \frac{f(t)}{h(t)}
+\]</span></p>
+<p>to describe <span class="math inline">\(f(u)\)</span> in terms of <span class="math inline">\(h(t)\)</span></p>
+<p><span class="math display">\[
+S(u) = \frac{f(u)}{h(u)} = e^{-∫_{0}^{u}h(t)dt} ⇒
+\]</span></p>
+<p><span class="math display">\[
+f(u) = h(u) e^{-∫_{0}^{u}h(t)dt}
+\]</span></p>
+</section>
+<section id="fx-1" class="level3">
+<h3 class="anchored" data-anchor-id="fx-1">F(x)</h3>
+<p><span class="math inline">\(F(t)\)</span> is pretty simple as well, since it’s just <span class="math inline">\(1 - S(t)\)</span> (or more appropriately, but equivalently, <span class="math inline">\(S(t) = 1 - F(t)\)</span>)</p>
+<p><span class="math display">\[
+S(u) = 1 - F(u) = e^{-∫_{0}^{u}h(t)dt} ⇒
+\]</span></p>
+<p><span class="math display">\[
+F(u) = 1 - e^{-∫_{0}^{u}h(t)dt}
+\]</span></p>
+<p>We did it. We described all of our big equations in terms of the hazard function.</p>
+</section>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<ul>
+<li><span class="math inline">\(f(x)\)</span>: The probability density function of events across time</li>
+<li><span class="math inline">\(F(x)\)</span>: The probability of experiencing an event by time <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(S(x)\)</span>: The probability of not experiencing an event by time <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(h(x)\)</span>: The hazard function. Interpretation is tough, but essentially the ‘amount of risk’ for an event experienced at time <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(H(x)\)</span>: The cumulative amount of ‘risk’ experienced up to time <span class="math inline">\(x\)</span></li>
+</ul>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>I’m setting up these rules because they are involved in math later. Don’t worry about it now.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The cat’s birth, not theirs<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Plus you know this information will NOT be motivating for your cat<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>This is not a popular hobby<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Which as we all know is - by itself - worth all the viscera in the world<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Perhaps somewhat confusingly for fans of the widely used Adobe file format<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>You’ll need to think about the relationship between a curve and its integral - but basically it goes up whenever it ‘adds’ more area under the curve and goes down whenever it ‘subtracts’ area under the curve - which happens when the curve being integrated goes below 0<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Yes, I understand that traffic lights aren’t probabilistic and are probably on some stupid timer. I don’t care. Pretend like they are.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

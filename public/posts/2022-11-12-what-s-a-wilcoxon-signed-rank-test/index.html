@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html><head lang="en"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>What&#39;s a Wilcoxon signed-rank test? - Personal Website of Kai Aragaki</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="I was tired of looking up what various statistical tests do, so in hopes of remembering, I wanted to try the &rsquo;learn by teaching&rsquo; method. Worse comes to worst, I can just look back at this if need be.
+That was five days ago. After five days of looking at poorly scanned PDFs of books published in the last millennium, formulae that look more like hexes than anything else, diving down into the C source code of R, and, of course, plenty of time on Wikipedia - I think I almost have a grip as to what&rsquo;s going on." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="What&#39;s a Wilcoxon signed-rank test?" />
+<meta property="og:description" content="I was tired of looking up what various statistical tests do, so in hopes of remembering, I wanted to try the &rsquo;learn by teaching&rsquo; method. Worse comes to worst, I can just look back at this if need be.
+That was five days ago. After five days of looking at poorly scanned PDFs of books published in the last millennium, formulae that look more like hexes than anything else, diving down into the C source code of R, and, of course, plenty of time on Wikipedia - I think I almost have a grip as to what&rsquo;s going on." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2022-11-12-what-s-a-wilcoxon-signed-rank-test/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-11-17T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="What&#39;s a Wilcoxon signed-rank test?"/>
+<meta name="twitter:description" content="I was tired of looking up what various statistical tests do, so in hopes of remembering, I wanted to try the &rsquo;learn by teaching&rsquo; method. Worse comes to worst, I can just look back at this if need be.
+That was five days ago. After five days of looking at poorly scanned PDFs of books published in the last millennium, formulae that look more like hexes than anything else, diving down into the C source code of R, and, of course, plenty of time on Wikipedia - I think I almost have a grip as to what&rsquo;s going on."/>
+<script src="http://localhost:1313/js/feather.min.js"></script>
+	
+	
+        <link href="http://localhost:1313/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.6057f469fa9b632a4ffd0954d6c1dfa3018bbd6de6cc407a9dc7dbe10d1d50ab.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css" media="(prefers-color-scheme: dark)"  />
+	
+
+	
+	
+		<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+		</script>
+	
+		
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			tex2jax: {
+				inlineMath: [['$','$'], ['\\(','\\)']],
+				displayMath: [['$$','$$'], ['\[','\]']],
+				processEscapes: true,
+				processEnvironments: true,
+				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+				TeX: { equationNumbers: { autoNumber: "AMS" },
+						 extensions: ["AMSmath.js", "AMSsymbols.js"] }
+			}
+		});
+		</script>
+	
+
+	
+	
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+		
+		
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+					renderMathInElement(document.body, {
+							delimiters: [
+									{left: "$$", right: "$$", display: true},
+									{left: "$", right: "$", display: false}
+							]
+					});
+			});
+			</script>
+	
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Personal Website of Kai Aragaki</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/tags/blog">Blog</a>
+		
+		<a href="/tags/photos">Photos</a>
+		
+		<a href="/about">About</a>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">What&#39;s a Wilcoxon signed-rank test?</h1>
+			<div class="meta">Posted on Nov 17, 2022</div>
+		</div>
+		
+		<div class="tldr">
+			<strong>tl;dr:</strong>
+			The Wilcoxon signed-rank test is a non-parametric test. It can be used to compare a bunch of points against a single value or a bunch of points against another bunch of points, so long as those points are paired to one another.
+		</div>
+
+		<section class="body">
+			<p>I was tired of looking up what various statistical tests do, so in hopes of remembering, I wanted to try the &rsquo;learn by teaching&rsquo; method. Worse comes to worst, I can just look back at this if need be.</p>
+<p>That was five days ago. After five days of looking at poorly scanned PDFs of books published in the last millennium, formulae that look more like hexes than anything else, diving down into the C source code of R, and, of course, plenty of time on Wikipedia - I think I <em>almost</em> have a grip as to what&rsquo;s going on.</p>
+<h1 id="details">Details</h1>
+<p>Imagine you are trying to train cats to get rid of mice in your house, but they are not good at it. You decide to show them an instructional video called &lsquo;Mice are Quite Bad, Actually&rsquo; and measure their feelings on mice both before and after the movie, on a scale of 1-100 (continuous, not integer. I did this so there would be a very slim chance of there being ties, which is a whole other can of worms).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(dplyr)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyr)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggsci)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(bladdr)
+</span></span></code></pre></div><p>Here&rsquo;s what we&rsquo;re going to use for our cat data:</p>
+<pre><code># A tibble: 60 × 3
+   rating seen_film   cat
+    &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
+ 1   66.8 unwatched     1
+ 2   29.0 watched       1
+ 3   94.9 unwatched     2
+ 4   17.0 watched       2
+ 5   59.6 unwatched     3
+ 6   50.7 watched       3
+ 7   57.4 unwatched     4
+ 8   58.2 watched       4
+ 9   66.6 unwatched     5
+10   37.4 watched       5
+# ℹ 50 more rows
+</code></pre>
+<p>We have 30 cats, and their feelings on mice before and after they saw our film. But tables are so boring (and difficult to parse) - let&rsquo;s visualize:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ratings_plotting <span style="color:#f92672">&lt;-</span> ratings <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cat) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(min <span style="color:#f92672">=</span> <span style="color:#a6e22e">min</span>(rating),
+</span></span><span style="display:flex;"><span>         max <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(rating))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wide_ratings <span style="color:#f92672">&lt;-</span> ratings <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> seen_film, values_from <span style="color:#f92672">=</span> rating) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(ratings_plotting, <span style="color:#a6e22e">aes</span>(cat, rating, color <span style="color:#f92672">=</span> seen_film)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> wide_ratings, 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(
+</span></span><span style="display:flex;"><span>      y <span style="color:#f92672">=</span> unwatched, 
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># Give arrowheads more room from the point</span>
+</span></span><span style="display:flex;"><span>      yend <span style="color:#f92672">=</span> watched <span style="color:#f92672">-</span> (<span style="color:#a6e22e">sign</span>(watched<span style="color:#f92672">-</span>unwatched)),  
+</span></span><span style="display:flex;"><span>      xend <span style="color:#f92672">=</span> cat
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray70&#34;</span>, 
+</span></span><span style="display:flex;"><span>    arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#34;pt&#34;</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_tufte</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_color_npg</span>()
+</span></span></code></pre></div><img src="index.markdown_strict_files/figure-markdown_strict/unnamed-chunk-4-1.png" width="768" />
+<p>Notice that your anti-mouse propaganda appears to be working - after the film, cats feelings towards mice were generally less favorable.</p>
+<p>You <em>could</em> do a t-test, but you don&rsquo;t know if the distribution is normal (actually, I know that the distribution is NOT normal since I generated these data - it uses a uniform distribution)</p>
+<p>Let&rsquo;s use a robust test that doesn&rsquo;t assume that the distributions are normal. How does it work? Through the magic of <em>ranking</em>.</p>
+<h1 id="procedure">Procedure</h1>
+<p>First, subtract one value from the other. Let&rsquo;s subtract before from after:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ratings_with_diff <span style="color:#f92672">&lt;-</span> ratings <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> seen_film, values_from <span style="color:#f92672">=</span> rating) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(diff <span style="color:#f92672">=</span> watched<span style="color:#f92672">-</span>unwatched)
+</span></span><span style="display:flex;"><span>ratings_with_diff
+</span></span></code></pre></div><pre><code># A tibble: 30 × 4
+     cat unwatched watched    diff
+   &lt;int&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1     1      66.8    29.0 -37.8  
+ 2     2      94.9    17.0 -77.9  
+ 3     3      59.6    50.7  -8.92 
+ 4     4      57.4    58.2   0.711
+ 5     5      66.6    37.4 -29.2  
+ 6     6      58.0    32.3 -25.6  
+ 7     7      59.4    51.0  -8.41 
+ 8     8      74.0    16.8 -57.2  
+ 9     9      33.2    48.8  15.6  
+10    10      60.8    65.1   4.23 
+# ℹ 20 more rows
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(ratings_with_diff, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cat, y <span style="color:#f92672">=</span> diff)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_tufte</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, yend <span style="color:#f92672">=</span> diff <span style="color:#f92672">-</span> <span style="color:#a6e22e">sign</span>(diff), xend <span style="color:#f92672">=</span> cat), 
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray70&#34;</span>, 
+</span></span><span style="display:flex;"><span>    arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#34;pt&#34;</span>))
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><img src="index.markdown_strict_files/figure-markdown_strict/unnamed-chunk-6-1.png" width="768" />
+<p>Note that most of the values are negative - again, this shows that most of the cat&rsquo;s views of mice DECREASED after viewing the film.</p>
+<p>Now we take the absolute value of these differences:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ratings_with_abs <span style="color:#f92672">&lt;-</span> ratings_with_diff <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(abs <span style="color:#f92672">=</span> <span style="color:#a6e22e">abs</span>(diff))
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(ratings_with_abs, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cat, y <span style="color:#f92672">=</span> abs)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_tufte</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, yend <span style="color:#f92672">=</span> abs <span style="color:#f92672">-</span> <span style="color:#ae81ff">.5</span>, x <span style="color:#f92672">=</span> cat, xend <span style="color:#f92672">=</span> cat), 
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray70&#34;</span>, 
+</span></span><span style="display:flex;"><span>    arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#34;pt&#34;</span>))
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><img src="index.markdown_strict_files/figure-markdown_strict/unnamed-chunk-8-1.png" width="768" />
+<p>And convert those values to ranks, based on the magnitidue of the differences:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ratings_with_rank <span style="color:#f92672">&lt;-</span> ratings_with_abs <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(rank <span style="color:#f92672">=</span> <span style="color:#a6e22e">rank</span>(abs))
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(ratings_with_rank, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cat, y <span style="color:#f92672">=</span> rank)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_tufte</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, yend <span style="color:#f92672">=</span> rank <span style="color:#f92672">-</span> <span style="color:#ae81ff">.5</span>, x <span style="color:#f92672">=</span> cat, xend <span style="color:#f92672">=</span> cat), 
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray70&#34;</span>, 
+</span></span><span style="display:flex;"><span>    arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#34;pt&#34;</span>))
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><img src="index.markdown_strict_files/figure-markdown_strict/unnamed-chunk-10-1.png" width="768" />
+<p>Now we give them their signs back:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ranks_w_sign <span style="color:#f92672">&lt;-</span> ratings_with_rank <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(signed_rank <span style="color:#f92672">=</span> rank <span style="color:#f92672">*</span> <span style="color:#a6e22e">sign</span>(diff))
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(ranks_w_sign, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cat, y <span style="color:#f92672">=</span> signed_rank)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_tufte</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(
+</span></span><span style="display:flex;"><span>      y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, 
+</span></span><span style="display:flex;"><span>      yend <span style="color:#f92672">=</span> signed_rank <span style="color:#f92672">-</span> <span style="color:#a6e22e">sign</span>(signed_rank), 
+</span></span><span style="display:flex;"><span>      xend <span style="color:#f92672">=</span> cat
+</span></span><span style="display:flex;"><span>    ), 
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray70&#34;</span>, 
+</span></span><span style="display:flex;"><span>    arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#34;pt&#34;</span>)))
+</span></span></code></pre></div><img src="index.markdown_strict_files/figure-markdown_strict/unnamed-chunk-12-1.png" width="768" />
+<h1 id="the-null-distribution">The Null Distribution</h1>
+<p>Now here is where things get a little weird: in theory, you would add up all your signed ranks and you&rsquo;d have your statistic. But under the hood - when using <code>wilcox.test</code> - we add up only the positive signed ranks. The reason we can get away with this is because they carry the same information, so long as we know how many numbers were in the original set. For instance, if we had a set of 8 signed ranks, and I showed you this set and said it had all the positive ranks in the original set:</p>
+<p>$$
+{1, 4, 7}
+$$</p>
+<p>You could figure out the original set looked like this:</p>
+<p>$$
+{1, -2, -3, 4, -5, -6, 7, -8}
+$$</p>
+<p>Why not just use the whole set? As it turns out, calculating the null distribution is pretty hard, but if you only use the positive signed rank distribution as a null distribution (you could technically use just the negative signed rank distribution as well), you can use a recursive formula that makes calculating it semi-tractable.</p>
+<p>So, what is this null distribution? In the most general sense, it&rsquo;s the frequency distribution of the statistic you&rsquo;d get if there was NO effect of showing the video to our cats. With our classic statistic, which is the sum of ALL the signed ranks, we&rsquo;d expect to get an average of about 0 - the amount of cats who had their views of mice positively impacted - and the magnitude of that impact 0 was about the same as the amount of cats who had their view of mice negatively impacted and the magnitude thereof.</p>
+<p>However, this wouldn&rsquo;t be the case with the &lsquo;positive rank only&rsquo; statistic I mentioned we use under the hood - if our statistic was 0 in this case, it would be because NO cats had their views of mice positively impacted by our movie. This is super unlikely in the null case! No, the mean of this &lsquo;positive rank only&rsquo; distribution is:</p>
+<p>$$
+\frac{n(n+1)}{4}
+$$</p>
+<p>Why? Well, a fast way to find out what the sum of a sequence of integers&hellip;</p>
+<p>$$
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+$$</p>
+<p>is to essentially fold the number list in half:</p>
+<p>$$
+1, 2, 3, 4, 5
+$$
+$$
+10, 9, 8, 7, 6
+$$
+And add the ones on top to the ones below:</p>
+<p>$$
+11, 11, 11, 11, 11
+$$
+And then add them all up:</p>
+<p>$$
+11 + 11 + 11 + 11 + 11 = 11 \times 5 = 55
+$$</p>
+<p>But we could have made that quicker if we just added the first number (1) to the last number (n) and multiplied it by half the length of the sequence (n/2). Or:</p>
+<p>$$
+(n + 1) \times \frac{n}{2} = \frac{n(n+1)}{2}
+$$</p>
+<p>So, the MAXIMUM sum that our &lsquo;positive ranks only&rsquo; statistic could be would be the above, if ALL ranks were positive. The minimum would be 0. And the mean is simply the average between everything and nothing: half.</p>
+<p>$$
+\frac{n(n+1)}{2} \times \frac{1}{2} = \frac{n(n+1)}{4}
+$$</p>
+<p>Cool cool. That doesn&rsquo;t help much if you&rsquo;re trying to figure out how this distribution is shaped, which is important if you want to figure out how rare your value is. You just know where the middle is, but you have no idea if the distribution is shaped like a rectangle (a la uniform distribution) or like a sharp needle, that anywhere outside of exactly the center is super rare.</p>
+<p>I&rsquo;ll show you how to calculate a small distribution by hand, which I hope will give you an intuition for the mechanics behind this distribution - but I&rsquo;ll show you a far less painless way to do it automatically with R.</p>
+<p>We assume that every rank (1, 2, 3, &hellip;. n) has an equal possibility of being positive or negative. So our sample space looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ss <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">expand.grid</span>(`1` <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">1</span>), 
+</span></span><span style="display:flex;"><span>                  `2` <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-2</span>, <span style="color:#ae81ff">2</span>), 
+</span></span><span style="display:flex;"><span>                  `3` <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-3</span>, <span style="color:#ae81ff">3</span>), 
+</span></span><span style="display:flex;"><span>                  `4` <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-4</span>, <span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>ss
+</span></span></code></pre></div><pre><code>    1  2  3  4
+1  -1 -2 -3 -4
+2   1 -2 -3 -4
+3  -1  2 -3 -4
+4   1  2 -3 -4
+5  -1 -2  3 -4
+6   1 -2  3 -4
+7  -1  2  3 -4
+8   1  2  3 -4
+9  -1 -2 -3  4
+10  1 -2 -3  4
+11 -1  2 -3  4
+12  1  2 -3  4
+13 -1 -2  3  4
+14  1 -2  3  4
+15 -1  2  3  4
+16  1  2  3  4
+</code></pre>
+<p>Now, let&rsquo;s add up the POSITIVE ranks for each one of these outcomes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>outcome_sums <span style="color:#f92672">&lt;-</span> ss <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">everything</span>(), <span style="color:#a6e22e">\</span>(x) <span style="color:#a6e22e">ifelse</span>(x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, x))) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rowSums</span>()
+</span></span><span style="display:flex;"><span>outcome_sums
+</span></span></code></pre></div><pre><code> [1]  0  1  2  3  3  4  5  6  4  5  6  7  7  8  9 10
+</code></pre>
+<p>And now create a table of the positive rank outcome frequencies:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">table</span>(outcome_sums)
+</span></span></code></pre></div><pre><code>outcome_sums
+ 0  1  2  3  4  5  6  7  8  9 10 
+ 1  1  1  2  2  2  2  2  1  1  1 
+</code></pre>
+<p>Look at that! A symmetric distribution with bounds of 0 to n*(n+1)/2.</p>
+<p>Finding the probability of getting a particular value or higher is much simpler: we can sum up the number of outcomes that are higher than our outcome, and divide by the total number of outcomes (2^n). So if the sum of all our positive ranks was 9, we would have a p-value of 1/16 = 0.0625. That is the probability that we would see a value MORE EXTREME than the one we have given random chance. Or, if we had a value of 3 we wanted to know if how extreme that was in terms of being a LOW statistic, we would count the number of outcomes that are LOWER than that (1 + 1 + 1 = 3) divided by the total number of outcomes (p = 3/16 = 0.1875). Again, that is the probability that we would see a value more extreme than the one we have just by random chance.</p>
+<p>Thankfully, there are functions in R for this distribution:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">psignrank</span>(<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">4</span>, lower.tail <span style="color:#f92672">=</span> F)
+</span></span></code></pre></div><pre><code>[1] 0.0625
+</code></pre>
+<p>Now note that the following does not match up with what we calculated:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">psignrank</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>)
+</span></span></code></pre></div><pre><code>[1] 0.3125
+</code></pre>
+<p>That is because for <code>lower.tail = FALSE</code>, the probability is calculated as the probability of values greater than x (what we did). If <code>lower.tail = TRUE</code>, it calculates the probability of values less than <em>or equal to</em> x. We just did <em>less than</em> for the sake of consistency, but keep this in mind.</p>
+<h1 id="soback-to-cats">So&hellip;back to cats.</h1>
+<p>To finish off calculating our p-value, we simply sum the <em>positive</em> ranks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>((ranks_w_sign<span style="color:#f92672">$</span>signed_rank <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> ranks_w_sign<span style="color:#f92672">$</span>signed_rank) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">sum</span>()
+</span></span></code></pre></div><pre><code>[1] 24
+</code></pre>
+<p>And pop it into <code>psignrank</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">psignrank</span>(<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">30</span>) <span style="color:#75715e"># 30 = number of cats</span>
+</span></span></code></pre></div><pre><code>[1] 7.096678e-07
+</code></pre>
+<p>This is exactly the same as R&rsquo;s built in <code>wilcox.test</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">wilcox.test</span>(
+</span></span><span style="display:flex;"><span>  ranks_w_sign<span style="color:#f92672">$</span>watched, 
+</span></span><span style="display:flex;"><span>  ranks_w_sign<span style="color:#f92672">$</span>unwatched, 
+</span></span><span style="display:flex;"><span>  paired <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, 
+</span></span><span style="display:flex;"><span>  alternative <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;less&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><pre><code>    Wilcoxon signed rank exact test
+
+data:  ranks_w_sign$watched and ranks_w_sign$unwatched
+V = 24, p-value = 7.097e-07
+alternative hypothesis: true location shift is less than 0
+</code></pre>
+<p>Note that V = 24 (our statistic/the sum of positive ranks) and our p-value matches!</p>
+<p>NB: Image of &ldquo;A photo of a cat watching a documentary about mice&rdquo; courtesy DALLE-2</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/blog">blog</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/KaiAragaki" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>

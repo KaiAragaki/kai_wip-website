@@ -1,0 +1,39 @@
+baseURL = 'https://kai.rbind.io/'
+languageCode = 'en-us'
+title = 'Personal Website of Kai Aragaki'
+theme = "archie"
+ignoreFiles = [ "\\.qmd$", "\\.ipynb$", "\\.py$" ]
+
+[markup.goldmark.renderer]
+unsafe = true # For Quarto
+
+[params]
+mode = "auto"
+useCDN = false
+mathjax = true
+katex = true
+
+[[params.social]]
+name = "GitHub"
+icon = "github"
+url = "https://github.com/KaiAragaki"
+
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "Blog"
+url = "/tags/blog"
+weight = 2
+
+[[menu.main]]
+name = "Photos"
+url = "/tags/photos"
+weight = 3
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 99
