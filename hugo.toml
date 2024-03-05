@@ -8,7 +8,7 @@ ignoreFiles = [ "\\.qmd$", "\\.ipynb$", "\\.py$" ]
 unsafe = true # For Quarto
 
 [params]
-mode = "auto"
+mode = "dark"
 useCDN = false
 mathjax = true
 katex = true
