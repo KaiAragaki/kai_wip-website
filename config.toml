@@ -12,6 +12,7 @@ mode = "dark"
 useCDN = false
 mathjax = true
 katex = true
+customcss = ["css/custom.css"]
 
 [[params.social]]
 name = "GitHub"

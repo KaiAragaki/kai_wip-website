@@ -1,0 +1,22 @@
+:root{
+--maincolor: red;
+--bordercl: #F7D060;
+--callouctcolor:dodgerblue;
+--hovercolor:navy;
+--darkMaincolor: #F7D060;
+}
+
+img {
+  border: 3px solid transparent;
+  max-width: 100%;
+}
+
+.floatright {
+  float:right;
+  padding: 0 0 0 10px;
+}
+
+.floatleft {
+  float:left;
+  padding: 0 10px 0 0;
+}
