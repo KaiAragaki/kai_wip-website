@@ -21,12 +21,12 @@ url = "https://github.com/KaiAragaki"
 
 [[menu.main]]
 name = "Home"
-url = "/"
+url = "/tags/blog"
 weight = 1
 
 [[menu.main]]
-name = "Blog"
-url = "/tags/blog"
+name = "Projects"
+url = "/tags/projects"
 weight = 2
 
 [[menu.main]]
