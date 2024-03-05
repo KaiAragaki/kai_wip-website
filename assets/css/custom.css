@@ -6,6 +6,12 @@
 --darkMaincolor: #F7D060;
 }
 
+::selection {
+  background: #F7D060;
+  color: #fff;
+  text-shadow: none;
+}
+
 img {
   border: 3px solid transparent;
   max-width: 100%;
