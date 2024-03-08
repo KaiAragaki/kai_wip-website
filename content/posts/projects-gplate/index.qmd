@@ -3,8 +3,86 @@ title: gplate
 tags: [projects]
 ---
 
-gplate introduces a **g**rammar of **plate**s.
+```{=html}
+<img src="gp.png" height="150" class="floatleft"/>
+```
 
-Microwell plates are usually arranged in visually meaningful ways but are not tidy data, and their manipulation to and from a tidy form is cumbersome. gplate is aimed at both developers that create packages that ingest and produce plate data as well as for interactive operating on microwell data.
+[gplate](https://github.com/KaiAragaki/gplate) introduces a **g**rammar of **plate**s.
 
-[Github](https://github.com/KaiAragaki/gplate)
+Microwell plates are usually arranged in visually meaningful ways but are not tidy data, and their manipulation to and from a tidy form is cumbersome. gplate is aimed at both developers that create packages that ingest and produce plate data as well as for interactive operating on microwell data. 
+
+To this end, gplate introduces a succinct but powerful language. The 'shape' of the microwell data is described in a layers known as 'sections' that allow for the fractal-like layouts that are common when plating things. 
+
+This sounds all very theoretical, so let's dive in with a quick example. More information can be found on the [pkgdown](https://kaiaragaki.github.io/gplate/).
+
+```{r}
+library(gplate)
+```
+
+A `gplate` is not very exciting on its own:
+
+```{r}
+gp <- gp(rows = 16, cols = 24)
+gp
+```
+
+An important utility of gplate is the ability to plot your efforts along the way to tidying your data to ensure you're on the right track. This will make a little bit more sense later, but as a baseline, let's plot plate as is:
+
+```{r}
+gp_plot(gp)
+```
+
+You'll notice the plot has a '.sec' legend. This stands for the current 'section' of the plot. We'll get to what that can do for you next, but for now just know that at baseline, the whole plate is considered a single 'section'.
+
+Let's add our own sections. Why would you want to add a section? Consider you plated half a plate with one drug and half with the other. We could do something like this to illustrate that:
+
+```{r}
+with_drug <- gp |>
+  gp_sec("drug", ncol = 12, nrow = 16, labels = c("Drug A", "Drug B"))
+gp_plot(with_drug, drug)
+```
+
+Sections define 'blocks' in our plates. But it isn't just for plotting (though I find this quite useful for plotting when writing protocols) - in the [Using glate to wrangle plate data](https://kaiaragaki.github.io/gplate/articles/gp_for_data.html) vignette, you'll see that you can easily provide data as an argument to `gp`. By describing the data through this 'plotting' method, tidying becomes trivial. 
+
+An example. Suppose we have data that look like these:
+
+```{r}
+my_data <- matrix(1:100, nrow = 10, ncol = 10)
+my_data
+```
+
+Suppose we also know that each quadrant of the (strangely, 10x10) plate is a different drug, and that in each quadrant, each column represents a concentration of drug, increasing from 0 to 1000 from left to right.
+
+Ironically, the best way to visualize what I mentioned above is *with* gplate.
+
+Like above, we can annotate each section with a drug:
+
+```{r}
+with_drug <- my_data |>
+  as_gp() |>
+  gp_sec(name = "drug", nrow = 5, ncol = 5, labels = c("A", "B", "C", "D"))
+gp_plot(with_drug, drug)
+```
+
+But to annotate drug concentrations, we should note that *sections can have sections*. This is the fractal nature I spoke of at the beginning.
+
+```{r}
+with_conc <- with_drug |>
+  gp_sec(name = "conc", ncol = 1, labels = c(0, 1, 10, 100, 1000))
+
+gp_plot(with_conc, conc)
+```
+
+It's worth noting that our other sections (in this case, just `drug`) can still be plotted too:
+
+```{r}
+gp_plot(with_conc, drug)
+```
+
+Tidying these data is simple. Now the plate is ready, it can be served:
+
+```{r}
+gp_serve(with_conc)
+```
+
+This scratches just the surface of what interesting and useful things can be done with `gplate`. For more information, check out the [pkgdown](https://kaiaragaki.github.io/gplate/).
