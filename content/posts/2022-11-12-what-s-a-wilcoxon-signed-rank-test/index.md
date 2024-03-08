@@ -365,5 +365,3 @@ wilcox.test(
     alternative hypothesis: true location shift is less than 0
 
 Note that V = 24 (our statistic/the sum of positive ranks) and our p-value matches!
-
-NB: Image of "A photo of a cat watching a documentary about mice" courtesy DALLE-2
