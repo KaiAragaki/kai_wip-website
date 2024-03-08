@@ -8,8 +8,13 @@
 
 ::selection {
   background: #F7D060;
-  color: #fff;
+  color: #000;
   text-shadow: none;
+}
+
+code {
+  background-color: transparent;
+  color: white;
 }
 
 img {
