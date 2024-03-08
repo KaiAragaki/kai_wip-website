@@ -1,0 +1,16 @@
+---
+title: tidyestimate
+tags: [projects]
+---
+
+```{=html}
+<img src="tidyestimate.png" height="150" class="floatleft"/>
+```
+
+[tidyestimate](https://cran.r-project.org/web/packages/tidyestimate/index.html) is a refresh of the excellent [ESTIMATE](https://bioinformatics.mdanderson.org/estimate/rpackage.html) package a package used to determine tumor purity by measuring the amount of infiltrating immune and stromal cells via single-sample gene set enrichment analysis. 
+
+While the underlying algorithm remains the same, the ergonomics have been greatly enhanced: 
+
+- Instead of having to shuffle around `.GCT` files, tidyestimate ingests and produces data.frames.
+- Since it produces data.frames, rather than intermediate files, it can be piped.
+- It does conservative alias matching for gene symbols to allow for compatibility with a wider array of data sets.

@@ -1,0 +1,33 @@
+---
+title: amplify 
+tags: [projects]
+---
+
+```{=html}
+<img src="amplify.png" height="150" class="floatright"/>
+```
+
+[amplify](https://kaiaragaki.github.io/amplify/index.html) provides a suite of functions to analyze routine ΔΔCt qPCR data away from the QuantStudio, with greater flexibility, by providing features such as:
+- tidying data from off the QuantStudio
+- Plate and expression plotting
+- (Re)calculation of RQ
+- Resetting of control probe
+
+For more information, see [Analyzing ddCt qPCR with amplify](https://kaiaragaki.github.io/amplify/articles/analyzing-ddctqrtpcr.html)
+
+Additionally, amplify automatically generates QC reports for routine standard-curve library-preparation quantification assays (see [Performing Library Quantification QC](https://kaiaragaki.github.io/amplify/articles/performing-lib-quant-qc.html)).
+
+```{=html}
+<img src="plan-pcr.png" height="150" class="floatleft"/>
+```
+
+# plan-pcr
+
+amplify is used by [plan-pcr](https://kai-a.shinyapps.io/plan-pcr/) ([source/README](https://github.com/KaiAragaki/plan-pcr)), a Shiny app used to help make plate layouts, calculate dilutions and amounts of mastermix needed, and generate reports.
+
+
+# Gallery
+
+```{=html}
+<img src="plate-overview-screenshot.png"/>
+```

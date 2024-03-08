@@ -1,0 +1,66 @@
+---
+title: qp
+tags: [projects]
+---
+
+```{=html}
+<img src="quantify-protein.png" height="150" class="floatleft"/>
+```
+
+[qp](https://kaiaragaki.github.io/qp/index.html) is a toolkit for working with MicroBCA assays and their analyses. It leverages work from some of my other projects, like `gplate` and `mop`.
+
+The old process was to slice and dice data in Excel. While it certainly *worked*, it was subjective (outliers removed by eye), tedious (the same analysis every time), and was a leak in the 'flow of data', as excel-based data munging often is: no one knows *how* (and certainly not *why*) you did something, only that something *was done*. 
+
+# Shiny App
+
+qp was created as an attempt to fix all these issues. Furthermore, to facilitate its use, I've used it in a [Shiny app](https://kai-a.shinyapps.io/qp_shiny/). However, it's a fully (perhaps even more) capable package without a GUI. 
+
+```{=html}
+<img src="qp_shiny.png"/>
+```
+
+# Usage
+
+```{r}
+library(qp)
+head(absorbances) # Some example absorbances
+```
+
+To get a feel for what it might look like on the bench:
+
+```{r}
+qp_plot_plate(absorbances)
+```
+
+
+```{r}
+# These arguments are the defaults
+out <- qp(
+  absorbances,
+  replicate_orientation = "v",
+  sample_names = paste0("Sample_", 1:8),
+  remove_empty = TRUE,
+  ignore_outliers = "all",
+  standard_scale = c(0, 2^((2:7) - 5)),
+  n_replicates = 3,
+  wavelength = 562
+)
+
+out
+```
+
+We can make a plot of the fit:
+
+```{r}
+qp_plot_standards(out)
+```
+
+We can also calculate dilutions:
+
+```{r}
+out |>
+  qp_summarize() |>
+  qp_dilute()
+```
+
+There's plenty more that can be done (particularly with less typical workflows) - see the [vignette](https://kaiaragaki.github.io/qp/articles/quantifying-protein-with-qp.html) for more information
