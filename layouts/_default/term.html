@@ -1,0 +1,14 @@
+{{ define "main" }}
+
+<ul class="posts">
+	{{- range .Data.Pages -}}
+	{{- if (not (in (.Site.Params.excludedTypes | default (slice "page")) .Type)) -}}
+	<section class="list-item">
+		<h1 class="title"><a href="{{ .RelPermalink }}">{{.Title}}</a></h1>
+		{{ template "partials/pagedescription.html" . }}
+		<a class="readmore" href="{{ .RelPermalink }}">Read more ⟶</a>
+	</section>
+	{{- end -}}
+	{{- end -}}
+</ul>
+{{ end }}

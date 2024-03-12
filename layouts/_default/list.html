@@ -1,0 +1,12 @@
+{{ define "main" }}
+
+<ul class="posts">
+	{{- range .Data.Pages -}}
+		{{- if (not (in (.Site.Params.excludedTypes | default (slice "page")) .Type)) -}}
+		<li class="post">
+			<a href="{{ .RelPermalink }}">{{.Title}}</a>
+		</li>
+		{{- end -}}
+	{{- end -}}
+</ul>
+{{ end }}
