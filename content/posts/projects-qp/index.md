@@ -1,7 +1,10 @@
 ---
-title: qp
+title: qp/qp_shiny
 tags:
   - projects
+description: >-
+  An R package and Shiny app duo. Quick, easy, flexible, reproducible protein
+  quantification
 ---
 
 

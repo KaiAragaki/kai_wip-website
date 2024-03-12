@@ -2,6 +2,9 @@
 title: gplate
 tags:
   - projects
+description: >-
+  An R package. Translate microwell plate data into tidy data using a succinct
+  but flexible grammar.
 ---
 
 

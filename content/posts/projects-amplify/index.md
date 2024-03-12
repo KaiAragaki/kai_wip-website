@@ -2,6 +2,7 @@
 title: amplify
 tags:
   - projects
+description: An R package. Makes qPCR preparation/analysis easy/reproducible.
 ---
 
 

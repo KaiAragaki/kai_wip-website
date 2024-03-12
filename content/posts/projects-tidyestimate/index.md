@@ -2,6 +2,9 @@
 title: tidyestimate
 tags:
   - projects
+description: >-
+  An R package. Estimate tumor purity in bulk sequencing. A fresh (and tidy)
+  coat of paint on the ESTIMATE package.
 ---
 
 

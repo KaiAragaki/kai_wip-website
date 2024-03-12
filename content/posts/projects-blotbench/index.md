@@ -2,6 +2,9 @@
 title: blotbench
 tags:
   - projects
+description: >-
+  An R package with a Shiny helper app *inside*. Reproducibly edit western blots
+  visually and easily.
 ---
 
 
