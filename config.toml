@@ -35,6 +35,11 @@ url = "/tags/photos"
 weight = 3
 
 [[menu.main]]
+name = "Link trove"
+url = "/links"
+weight = 4
+
+[[menu.main]]
 name = "About"
 url = "/about"
 weight = 99
