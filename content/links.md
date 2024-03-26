@@ -90,7 +90,7 @@ Here's a list of links to things I find cool, useful, interesting, or inspiring.
 
 ## Artists
 - [Jon Rubin](http://www.jonrubin.net/)
-  - Favorite works include The Last Billboard and Fruit and Other Things&rdquo;. Excited for the nascent The National Museum
+  - Favorite works include "The Last Billboard" and "Fruit and Other Things". Excited for the nascent "The National Museum"
 - [Jenny Holzer](https://projects.jennyholzer.com/plaques/cast-bronze/gallery#47)
 
 # Food
