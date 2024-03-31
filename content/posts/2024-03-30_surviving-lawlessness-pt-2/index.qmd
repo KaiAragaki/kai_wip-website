@@ -10,7 +10,11 @@ execute:
   echo: false
 ---
 
+
 # Introduction
+
+This is part 2 of my slow trudge through J. F. Lawlessness' book "Statistical Models and Methods For Lifetime Data". Part 1 is [here](https://kai.rbind.io/posts/2023-10-18-surviving-lawlessness-pt-1/).
+
 Despite our penchant for measuring time in terms of things like 'seconds', time is continuous - a smear of unidirectional, infinitesimal, temporally flavored jam across the universe. Sometimes, though, time-to-event things happen in more discrete units. Consider graduation time - students tend to graduate yearly, all at the same time (ie graduation day)[^1]. For this section, we're going to describe things in terms of graduation, but you might also consider a 'yearly checkup' to be another case of discrete-time events.
 
 # Old friends in new clothes
@@ -93,7 +97,7 @@ $$
 h(t) = Pr(T = t | T ≥ t)
 $$
 
-We can write this in terms of $p(t)$ and $S(t)$, doing the whole Bayes theorem thing again. I'm going to keep it a bit abridged, but if you have trouble following along, read the previous post to see how it was done in the continuous case. In short, you would see the same thing again: $Pr(B|A) = 1$, so $Pr(A|B) = \frac{Pr(a)}{Pr{B}}$.
+We can write this in terms of $p(t)$ and $S(t)$, doing the whole Bayes theorem thing again. I'm going to keep it a bit abridged, but if you have trouble following along, read the previous post to see how it was done in the continuous case. In short, you would see the same thing again: $Pr(B|A) = 1$, so $Pr(A|B) = \frac{Pr(A)}{Pr(B)}$.
 
 Since in this analogy,
 $$
