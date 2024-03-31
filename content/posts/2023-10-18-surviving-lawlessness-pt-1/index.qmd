@@ -284,7 +284,7 @@ It can be mathematically useful to determine the 'instantaneous rate' of an even
 It's just the probability we calculated above, divided by the same time frame ( $Δt$ ), as the time frame approaches 0. A higher value means greater imminence of the event, a smaller number means lower imminence. It can go up and down, but it can't be negative. It can be way, way bigger than 1, so it's not a probability.
 
 $$
-h(x) = \lim_{Δt → 0} \frac{∫_{t}^{t + Δt}f(x)dx}{S(t)} = \frac{f(x)}{S(t)}
+h(x) = \lim_{Δt → 0} \frac{∫_{t}^{t + Δt}f(x)dx}{S(t)×Δt} = \frac{f(x)}{S(t)}
 $$
 
 Often, hazard functions go up over time - like in our cat example, and also in human mortality. But they don't always need to go up. Sometimes the longer you've been around, the longer you WILL be around (known as the 'Lindy effect'). But the cumulative hazard DOES need to go up. So while it might be less risky to at each moment to keep on going, the amount of risk you experience is still non-zero, and it does get added to the ledger of risk you've experienced all time. It's like the risk of making a mistake when learning to play the piano. If you've miraculously managed to never make a mistake during the beginning stages, the risk of you making a mistake as you get better goes down. But over a long enough time, you still risk making a mistake, even if you are quite good.
