@@ -3,7 +3,7 @@ title: About Me
 date: 2024-03-03
 ---
 
-<img src="../me.jpg" height="150" class="floatleft"/>
+<img src="/images/me.jpg" height="150" class="floatleft"/>
 
 I'm Kai Aragaki. I'm currently a pharmacology PhD candidate at Johns Hopkins, on track to graduate in 2024. 
 
@@ -18,7 +18,7 @@ Wet lab:
 Dry lab:
 - Wrangling and tidying, package development, analysis (RNA, DNA sequencing), documentation (Rmd/qmd + pkg/book/blogdown), pipeline management (targets), app development (Shiny)...
 
-<img src="../pep.jpg" height="150" class="floatright"/>
+<img src="/images/pep.jpg" height="150" class="floatright"/>
 
 When I'm not doing all that, I love taking photographs (both film and digital), fawning over my cat (Pep) and plants, swing dancing, or learning something new.
 
