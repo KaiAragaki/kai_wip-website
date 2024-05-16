@@ -1,5 +1,6 @@
 ---
 title: 'Barely Enough Combinatorics: From 0 to the Binomial Coefficient'
+description: Featuring ice cream, orbs, and a mysterious crate of clothes.
 author: Kai
 date: '2024-05-15'
 slug: []
@@ -25,7 +26,8 @@ binomial coefficient. I tried writing an article just on that, but on writing
 it, I found I wanted to get a bit deeper into the whys and hows of
 combinatorics, too.
 
-So. Here we are. At bedrock. We're going to reason our way from nothing (perhaps a bit of common sense so we aren't delving into crazy abstract number theory) to
+So. Here we are. At bedrock. We're going to reason our way from nothing (perhaps
+a bit of common sense so we aren't delving into crazy abstract number theory) to
 the binomial coefficient.
 
 
@@ -110,6 +112,9 @@ In our case, we typically mean the 'demand' version.
 
 ![img](cominatorics-scoop.svg)
 
+(I know, these figure styles are all over the place. I don't consider myself
+bound by the shackles of 'style' or 'consistency' or 'skill')
+
 Consider the delightful scenario where you are in an ice cream shop with 5
 flavors, and you want to make a cone with two scoops of ice cream. Assuming
 order matters, and that getting two scoops of the same flavor is valid, how many
@@ -172,6 +177,8 @@ talk about this a little more in the next section.
 
 # Permutations
 
+![img](orbs.svg)
+
 It's a tale as old as time. You're a powerful wizard and you have several orbs
 that you want to arrange on your pedestals in the most pleasing fashion before
 company comes over. You have three orbs (the Orb of Seething Fury, the Orb of
@@ -185,16 +192,18 @@ choice, and only one choice.
 The next simplest would be to display only 1 orb. For that you have three
 options - Fury (F), Greed (G), or Crumpets (C)
 
+$$F, G, C$$
+
 With two orbs, things become interesting. We assume the order matters
 (presentation is everything, after all), which leads us with the following
 options:
 
-FG, FC, GF, GC, CF, CF
+$$FG, FC, GF, GC, CF, CF$$
 
 Supposing you want to flaunt the totality of your wealth, with three orbs, you
 have:
 
-FGC, FCG, GFC, GCF, CFG, CGF
+$$FGC, FCG, GFC, GCF, CFG, CGF$$
 
 It's important to note (for mathematical reasons) that there are 0 ways to
 arrange 4 or more orbs because *you don't have that many*.
@@ -202,7 +211,8 @@ arrange 4 or more orbs because *you don't have that many*.
 When you arrange all of the items in a set (like when we arranged all 3 orbs),
 they're usually just called **permutations**. When you select fewer than the
 number of items in the set (such as in the case of displaying only 2 of 3 orbs),
-they're called r-permutations, where r is the number of items you select (you may also see them referred to as 'k-permutations').
+they're called r-permutations, where r is the number of items you select (you
+may also see them referred to as 'k-permutations').
 
 This orb arranging exercise would quickly become intractable with more than a
 few orbs, so we should develop a formula that allows us to calculate the number
@@ -244,7 +254,7 @@ $$
 Where $n$ is the number of objects, and $r$ is the number of 'slots'. Looking at it, this equation automatically cancels out any 'choosing rounds' we
 don't have slots for by dividing by $(n-r)!$.
 
-# Subsets
+# Subsets, and the binomial coefficient (at long last)
 
 Oftentimes we don't care about the order of the selection of items, we just care
 about which items were selected. In our ice cream example, this would be like if
@@ -282,21 +292,15 @@ This is pronounced as 'n choose r'.
 
 So now we have:
 
-$$
-P(n,r) = \binom{n}{r} × P(r,r)
-$$
+$$P(n,r) = \binom{n}{r} × P(r,r)$$
 
 We should first note that we can simplify $P(r,r)$:
 
-$$
-P(r,r) = \frac{r!}{(r-r)!} = \frac{r!}{0!} = \frac{r!}{1} = r!
-$$
+$$P(r,r) = \frac{r!}{(r-r)!} = \frac{r!}{0!} = \frac{r!}{1} = r!$$
 
 So:
 
-$$
-P(n,r) = \binom{n}{r} × r!
-$$
+$$P(n,r) = \binom{n}{r} × r!$$
 
 We can solve for our unknown:
 
@@ -304,14 +308,28 @@ $$
 \binom{n}{r} = \frac{1}{r!} × P(n,r) = \frac{1}{r!} × \frac{n!}{(n-r)!} = \frac{n!}{r!(n-r)!}
 ‌$$
 
-I honestly think it's beautiful that we were able to prove this to ourselves from previous principles.
+And *this* - $\binom{n}{r}$ - is the binomial coefficient. Congratulations - we
+proved this to ourselves. You should feel good, because honestly I felt quite
+proud and it's embarrassing if I'm the only one.
+
+The next post will be about the interpretation and application of the binomial coefficient.
+
+# Summary
+
+- Addition principle says $∣A+B∣ = ∣A∣ + ∣B∣$
+- Multiplication principle says $∣A×B∣ = ∣A∣ × ∣B∣$
+  - Only applies to 'independent' events (see text for nuance)
+- Permutations are selections from a set where order matters
+- Subsets are selections from a set where order is meaningless
+- The number of unique subsets in a set of size $r$ in a set of size $n$ is given by the binomial coefficient.
+- The binomial coefficient is denoted by $\binom{n}{r} = \frac{n!}{r!(n-r)!}$
 
 
 # I want more
 
-I'd highly recommend you look in to 'Introductory Combinatorics' by Richard A
-Brualdi, which as far as I have read is a very human treatment of combinatorics.
-A **lot** of the content here is based on that book. Please check it out!
+I highly recommend 'Introductory Combinatorics' by Richard A Brualdi, which as
+far as I have read is a very humane treatment of combinatorics. A **lot** of the
+content/structure here is based on that book. Please check it out!
 
 
 # References
