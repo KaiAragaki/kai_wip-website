@@ -1,0 +1,51 @@
+---
+title: Peter Vidani's tumblr is the best one even though he's doing it all wrong
+author: Kai
+date: '2024-05-30'
+slug: []
+categories: []
+tags:
+  - blog
+format: hugo-md
+---
+
+# Disclaimer
+This post has swear words in it. If you don't like that, don't read this one. If you don't like that but you DO like not liking things, dig in boss. If you're looking to hire me and trying to figure out if I'm a good fit for your company culture, I promise I will step off company premises into the designated swearing area on my swear breaks and get all my swears out then.
+
+# In my day
+Back in the day if weirdos (poets) really liked things they'd just make an ode. Not me. Not this weirdo. This weirdo is making a blog post.
+
+Listen. I'm 27 years old. Doing some math and back calculation, that puts me in prime age to be on tumblr during the prime age of tumblr. And on tumblr I was. 
+
+Tumblr truly was a beautiful place, in large part due to its heterogeneity. Whatever you wanted, it was there. I followed, simultaneously, a bug blog, a design blog, a blog about a fake bread-based game, a math animation blog, an origami blog, several photography blogs, and my sister, to name a few. While the entirety of tumblr was a deluge, you could pick out individual strands of blogs and form them into the beautiful braid, the Dashboard.
+
+For me, personally, part of the power of tumblr was the ease of spinning up sideblogs, which in turn made for a variety of very well curated ( A E S T H E T I C ), highly specific blogs (as mentioned above). You get the idea that you want to make a blog about tree stumps that look like they have faces in them? Easy as pie. You don't have to add that to your main blog. You don't have to make that your whole 'thing'. And people who are interested in just the tree stump bit and not whatever else you post can choose one and not the other.
+
+This might seem a bit dystopian - the modularization of personality so that people can choose whatever bits and pieces of you that they want, and leave the rest. But asking some rando on the internet to accept you for who you are and everything you stand for is honestly a lot. These specialized blogs, like chess clubs, bring people with a similar interest together. People can choose to leave their level of engagement at that (which is fine!) or increase their level of engagement to become something stronger than just people that share that one thing.
+
+# And then there's Peter Vidani.
+Peter Vidani was tumblr's head of design from 2009-2015 (he has since been absorbed by OpenAI, RIP).  Tumblr staff were probably forced to blog (what a phrase), but their blogs were kickass. There was also a fair bit of hero worship of tumblr staff, which I'm sure elevated my opinion of them. 
+
+Anyway, I've been sadly scraping my profiles out from the husks of various social media corpses, and again came across Peter's blog now in my old and wizened state, and honestly: great job Peter. The problem is that Peter's blog is a hot mess when looked at in the context of the beautiful analogies of threads and braids and chess clubs I made before. Peter's blog is chaotic. Far from the blogs so perfectly coordinated that they even plan out the [color of their posts]( https://co-hu-sha.tumblr.com/ ), Peter's blog is this:
+
+![](https://64.media.tumblr.com/774d78e7593bfadc946ecc221b738957/tumblr_nhbcxbgY8K1qz52aeo1_1280.jpg)
+
+and this:
+
+ <div class="tumblr-post" data-href="https://embed.tumblr.com/embed/post/RHap-D_ydn0D0ETj31KNQg/104353399190" data-did="9b701f24ccac061e57eb81df3753e75c642f5b7b"><a href="https://petervidani.tumblr.com/post/104353399190">https://petervidani.tumblr.com/post/104353399190</a></div>  <script async src="https://assets.tumblr.com/post.js"></script>
+
+and this: 
+
+![](https://64.media.tumblr.com/5247dc24ed241c913a3933b2b6f9e34b/tumblr_n9wk2v3ybe1qzzszto1_1280.jpg)
+
+and this: 
+ <div class="tumblr-post" data-href="https://embed.tumblr.com/embed/post/RHap-D_ydn0D0ETj31KNQg/35352165516" data-did="953039e053c02ff0e63401cf275ba0f4605df817"><a href="https://petervidani.tumblr.com/post/35352165516">https://petervidani.tumblr.com/post/35352165516</a></div>  <script async src="https://assets.tumblr.com/post.js"></script>
+
+It's a lot of things - funny, interesting, irreverent, quirky, and occasionally beautiful - but perhaps most importantly it's *personal*. 
+
+Really, what I love about it is twofold. The first and simplest reason is that the posts are fire and I love the blog. Fine. The second reason is the reason I look at old photographs in vintage stores. Or the reason why, when I see people taking a picture (when I'm taking my shitty body out for a walk), I stop to see what they're taking a picture of. I like seeing what people find beautiful. It forces me for a brief moment to re-conceptualize how I could see something as beautiful. It's a moment of micro-empathy, a push-up for my cold, dead, under-utilized heart.
+
+# So what
+You might have noticed I've been referring to tumblr in the past tense. This isn't some ideological stand I'm taking -  honestly, it was just what came naturally. I'm not denying that tumblr still exists (at time of writing, that is), but I speak of it less as a platform and more of a bygone era. Like how churches are their congregations and not their buildings (my Christian upbringing has left me unable to produce a secular analogy), tumblr was the people on it rather than the platform itself, and most of the people are long gone.
+
+While using tumblr I appreciated those specific blogs run by real human beings that I could engage with at levels we both felt comfortable at, but looking at them now as fossils turns the message on its head. There is no soul in the themed blog. It might be a gallery of beauty, a trove of inspiration, or a useful reference, but humanity is multidimensional and these blogs by definition are not it. This isn't to shame them - it's not even to say they're wrong in the slightest, and should have been otherwise. But when the context changes, values change, and I think maybe Peter's blog provides the newer values I now seek. It is full of humor and weird and beauty, dizzying in its variety, earnest in its personality, and it ends, wordlessly, with the lone call of a mourning dove.
