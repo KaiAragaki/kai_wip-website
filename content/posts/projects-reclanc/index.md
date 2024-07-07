@@ -30,7 +30,7 @@ The utility of the second step is more straightforward. If you want to apply the
 
 # What is ClaNC?
 
-ClaNC is an algorithm that creates classifiers as well as uses the classifiers to assign new samples to a class (that is, it does step 1 and 2 as listed in the previous section). It is a nearest-centroid classifier, meaning it tries to find the average, distinguishing features of a given class (step 1), and then uses that average as a landmark to compare new samples to (step 2). If that doesn't make sense, worry not: I'll be going into the details later.
+ClaNC both creates classifiers (fits) as well as uses the classifiers to assign new samples to a class (predicts). It is a nearest-centroid classifier. We'll get into the details later, but as a brief summary, it means it tries to find the average, distinguishing features of a given class (step 1), and then uses that average as a landmark to compare new samples to (step 2).
 
 ClaNC was originally described by Alan Dabney [here](https://academic.oup.com/bioinformatics/article/21/22/4148/194954). Other nearest-centroid classifiers have existed (like, for instance, PAM), but ClaNC distinguishes itself by tending to be more accurate and sensitive than PAM. If you're interested in why and how, I highly recommend you to look through the paper linked. 
 
@@ -43,7 +43,7 @@ Our first step provide the algorithm with examples of what each class looks like
 ![](clanc_hows-it-work_blog_01.svg)
 **Figure 1, Left:** Our samples, colored by class, floating in N-dimensional space. **Right:** Each dimension separated from one another
 
-The first assumption we make is that we can treat each gene independently. While this might not be true in actuality, it greatly simplifies the problem and allows us to deal with each gene one at a time (**Figure 1, right**).
+The first assumption we make is that we can treat each gene independently. While this might not be exactly true in reality, it greatly simplifies the problem by allowing us to deal with each gene one at a time (**Figure 1, right**). Despite this simplification, it also works pretty well.
 
 For each gene, we calculate the overall mean, as well as the mean within each class (**Figure 2, top left**). We then find the distance between each class mean and the overall mean (**Figure 2, top middle**) and the pooled standard deviation for the gene (**Figure 2, top right**). Dividing the distance by the pooled standard deviation, we get, essentially, a t-statistic.
 
