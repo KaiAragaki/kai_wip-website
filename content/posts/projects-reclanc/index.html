@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>index.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1 id="introduction">Introduction</h1>
+<p>In this post, I’m going to give a brief overview into the <em>theory</em> and <em>mechanics</em> of my refresh of the classification package <code>ClaNC</code>, <code>reclanc</code>. The intended audience is those who know just a little about gene expression data and just a little about statistics. If you’re confused, feel free to reach out!</p>
+<p>Usage of <code>reclanc</code> won’t be covered here. I’ll be writing a separate vignette - stay tuned.</p>
+<h1 id="what-is-classification-and-why-do-it">What is classification, and why do it?</h1>
+<p>Classification, in essence, requires two steps:</p>
+<ol type="1">
+<li>Find the distinguishing features of each of the classes in your pre-labelled/clustered data (‘fitting’)</li>
+<li>Use these distinguishing features to classify samples from other datasets that do not have these labels (‘predicting’)</li>
+</ol>
+<p>Both of these steps provide utility.</p>
+<p>For the first step, let’s imagine you have tumors from cancer patients that responded to a drug and those that did not respond to a drug. We might use those as our ‘labels’ for each class - responders and non-responders. We could use a classifier to extract distinguishing features about each one of our classes. In the case of this package, these features refer to genes, and what distinguishes them from class to class is their expression levels. We can look at what features the classifier took and gain insight into the biology of these responders - maybe even forming a hypothesis for the mechanism by which these responders respond. The extent which the features extracted represent anything useful depends on the intepretability of the model, of which ClaNC is highly interpretable.</p>
+<p>The utility of the second step is more straightforward. If you want to apply the knowledge of a given subtype to a new set of data, classification is incredibly useful here. For instance, imagine you have developed a classifier that can help you predict whether a cancer patient will respond to a drug based on expression from their tumor. Being able to classify which class the new patient’s tumor falls into provides you with actionable information as to how to treat the patient.</p>
+<p>(Aside: not all classifiers can classify new, single samples - some require context of additional samples around them. However, ClaNC doesn’t need this and can classify a single new sample (sometimes called a ‘single sample classifier’).)</p>
+<h1 id="what-is-clanc">What is ClaNC?</h1>
+<p>ClaNC is an algorithm that creates classifiers as well as uses the classifiers to assign new samples to a class (that is, it does step 1 and 2 as listed in the previous section). It is a nearest-centroid classifier, meaning it tries to find the average, distinguishing features of a given class (step 1), and then uses that average as a landmark to compare new samples to (step 2). If that doesn’t make sense, worry not: I’ll be going into the details later.</p>
+<p>ClaNC was originally described by Alan Dabney <a href="https://academic.oup.com/bioinformatics/article/21/22/4148/194954">here</a>. Other nearest-centroid classifiers have existed (like, for instance, PAM), but ClaNC distinguishes itself by tending to be more accurate and sensitive than PAM. If you’re interested in why and how, I highly recommend you to look through the paper linked.</p>
+<h1 id="how-does-it-work">How does it work?</h1>
+<h2 id="fitting">Fitting</h2>
+<p>Our first step provide the algorithm with examples of what each class looks like so it can extract the features that distinguish one class from another. These ‘examples’ can come from some external phenotype (such as our responder/non-responder example from above) or from the data themselves (such as clusters from after doing, say, k-means clustering). Regardless, the input should be expression data that has been labeled with some kind of class (<strong>Figure 1, left</strong>).</p>
+<figure>
+<img src="clanc_hows-it-work_blog_01.svg" alt="" /><figcaption><strong>Figure 1, Left:</strong> Our samples, colored by class, floating in N-dimensional space. <strong>Right:</strong> Each dimension separated from one another</figcaption>
+</figure>
+<p>The first assumption we make is that we can treat each gene independently. While this might not be true in actuality, it greatly simplifies the problem and allows us to deal with each gene one at a time (<strong>Figure 1, right</strong>).</p>
+<p>For each gene, we calculate the overall mean, as well as the mean within each class (<strong>Figure 2, top left</strong>). We then find the distance between each class mean and the overall mean (<strong>Figure 2, top middle</strong>) and the pooled standard deviation for the gene (<strong>Figure 2, top right</strong>). Dividing the distance by the pooled standard deviation, we get, essentially, a t-statistic.</p>
+<figure>
+<img src="clanc_hows-it-work_blog_02.svg" alt="" /><figcaption><strong>Figure 2, Top left:</strong> The expression of a gene for each given class, with class means denoted by <em>ma</em>, <em>mb</em>, and <em>mc</em>, and the overall mean as <em>mo</em>. <strong>Top middle:</strong> distances between the class and overall means. <strong>Top right:</strong> Pooled standard deviantions are calculated for each gene. <strong>Bottom:</strong> dividing each class distance by the pooled standard deviation</figcaption>
+</figure>
+<p>We repeat this calculation for every gene (<strong>Figure 3, top</strong>), then take the absolute value of each statistic (<strong>Figure 3, bottom left</strong>) and rank them <em>per-class</em> (that is, each class has a #1, #2, etc) (<strong>Figure 3, bottom right</strong>).</p>
+<figure>
+<img src="clanc_hows-it-work_blog_03.svg" alt="" /><figcaption><strong>Figure 3, Top:</strong> t-statistics for each class (color) and each gene (row). <strong>Bottom left:</strong> absolute value of the t-statistics. <strong>Bottom right:</strong> classwise rank of absolute value t-statistics</figcaption>
+</figure>
+<p>One thing to note is what Dabney calls ‘active genes’. An ‘active gene’ is a gene that has been selected to be a distinguishing feature for a given class. At the outset, you can select how many active genes you want per class (and it needn’t be the same number of genes per class).</p>
+<p>One thing that sets ClaNC apart from other nearest-centroid classifiers is that it only lets each gene be ‘used’ as a distinguishing feature once. That is, it cannot be used in multiple classes. Because of this, the classes ‘compete’ with one another to see who gets what gene. It’s based on the class-rank of the gene (using the underlying absolute value t-statistic as a tie-breaker) as well as if a class needs more ‘active genes’ or if it already has all that it needs.</p>
+<p>The game of gene selection goes like this:</p>
+<ol type="1">
+<li>Each class tries to select its highest rated gene. In the case of <strong>Figure 4, panel 1</strong>, every class gets its desired gene. These genes are then taken out of future rounds (since each gene can only be in one class, a restriction we mentioned above).</li>
+<li>Classes continue to select their next highest rated gene, so long as there isn’t and conflict (<strong>panel 2</strong>).</li>
+<li>If a class can’t get its next highest rated gene (in this case, blue can’t get 3 because it’s been taken by red in a previous round), then it chooses its next best available choice (all the way at 6 for blue) (<strong>panel 3</strong>)</li>
+<li>If there’s a tie, it is typically resolved by looking at the underlying t-statistics. Whichever class has the larger absolute t-statistic wins the gene. However, in this case, suppose we set each class to only want 3 active genes. In that case, both blue and green have met their quota, and red wins by default (<strong>panel 4</strong>).</li>
+</ol>
+<figure>
+<img src="clanc_hows-it-work_blog_04.svg" alt="" /><figcaption><strong>Figure 4, Panel 1:</strong> All classes select their top rated gene. <strong>Panel 2:</strong> Classes continue to select their next highest rated gene. <strong>Panel 3:</strong> Blue selects its next best rank since previous ranks were taken. <strong>Panel 4:</strong> Despite a tie, since number of active genes = 3, red wins.</figcaption>
+</figure>
+<p>Once all genes have been selected, the rest are tossed - they’re unneeded for defining the centroid (<strong>Figure 5, gene 3</strong>). If a given class ‘won’ a gene, it uses its class mean as a value for that gene (<strong>Figure 5, colored means</strong>). Otherwise, it uses the overall mean (<strong>Figure 5, black means</strong>). The pooled standard deviations are also brought along. These are our centroids!</p>
+<figure>
+<img src="clanc_hows-it-work_blog_05.svg" alt="" /><figcaption><strong>Figure 5:</strong> Centroids, at long last.</figcaption>
+</figure>
+<h2 id="predicting">Predicting</h2>
+<p>Now we have created our centroids, we might be interested in applying them to classify future samples of unknown class.</p>
+<p>Suppose we have a new sample that we have expression data of (<strong>Figure 6, panel 1</strong>). The genes that are not included in the centroids will have no bearing on the classification, so we can remove them (this might be a feature: perhaps an inexpensive assay is developed that <em>only</em> measures the expression of the centroid genes) (<strong>panel 2</strong>).</p>
+<h3 id="distance-based-metric">Distance-based metric</h3>
+<p>For every class, and every gene in that class, find the distance between the class centroid’s mean and the new sample’s mean and square it (<strong>panels 3, 4, 5; numerator</strong>) and divide by the pooled standard deviation we kept in our centroids (<strong>panels 3, 4, 5; denominator</strong>).</p>
+<figure>
+<img src="clanc_hows-it-work_blog_06.svg" alt="" /><figcaption><strong>Figure 6:</strong> Calculating the distance between centroids and a new sample</figcaption>
+</figure>
+<p>Let’s think about these new statistics and what they mean. If the sample gene’s expression is very close to a class’s expression, the statistic will be very small (scaled by how much it tends to deviate - we shouldn’t punish expression from being far from the mean if it’s fairly typical). If a sample is very similar to a given class, we expect all of these scores to be quite small. To this end, we take the sum of all the scores for a given class and compare the sums across all classes. The one with the smallest score is the most similar class, to which the sample gets assigned. Note that it makes sense to square the distance between the sample’s expression and the centroid’s expression, because we don’t want a sample that is ‘equally wrong on both sides’ to average out and get flagged as very similar.</p>
+<h3 id="correlation-based-metric">Correlation-based metric</h3>
+<p>The distance-based metric classification can fail, such as when samples are scaled differently or the expression comes from a different sequencing platform. Consider a particularly pathological example shown in <strong>Figure 7</strong>, where the colored dots represent the training samples used to create our centroids, and the black dots represent new samples we want to classify. Despite our new samples showing three distinct clusters that appear to have a similar pattern to our training data clusters, they will all be called ‘red’ because it is the closest cluster.</p>
+<figure>
+<img src="clanc_hows-it-work_blog_07.svg" alt="" /><figcaption><strong>Figure 7:</strong> When distance metrics fail</figcaption>
+</figure>
+<p>One way around this is to look at the <em>correlation</em> between centroid expressions and the new sample’s expression. If the centroid is related with the sample but for a difference in scaling, we expect a positive correlation between the two, such as shown between the unknown sample and the green centroid in <strong>Figure 8</strong>.</p>
+<figure>
+<img src="clanc_hows-it-work_blog_08.svg" alt="" /><figcaption><strong>Figure 8:</strong> Classification through correlation</figcaption>
+</figure>
+<p>(For the sake of illustration, I’ve simplified the centroids to only use their class means for all genes, and don’t consider anything about ‘winning’ genes - the principle is the same though.)</p>
+<ol start="5" type="1">
+<li>If correlation, (why correlation?), calculate the correlation of centroid expressions to sample expression.</li>
+</ol>
+<h1 id="how-is-reclanc-different-from-clanc">How is reclanc different from ClaNC?</h1>
+<p>You may have noticed that Dabney already created an R package. However, for the life of me I couldn’t track down the original source anywhere, in large part due to <a href="https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/">link rot</a></p>
+<p><img src="link-rot.png" /></p>
+<p>Fortunately, some version of it was saved in a different project known as <a href="https://github.com/naikai/sake/blob/master/R/clanc.R">SAKE</a>, and I have adapted the source from there for this package - though it has been heavily modified.</p>
+<p>Besides its mere existence, <code>reclanc</code> also differs from ClaNC in how it integrates with surrounding ecosystems. While ClaNC preferred just matrix inputs, <code>reclanc</code> can take a <code>SummarizedExperiment</code>, <code>ExpressionSet</code>, <code>data.frame</code>/<code>tibble</code>, or, of course, a <code>matrix</code>.</p>
+<p><code>reclanc</code> also integrates nicely with <code>tidymodels</code>, and can take a <code>recipe</code> as input. While originally a specific resampling function was built into ClaNC, integration with <code>tidymodels</code> allows resampling to be handled by <code>rsample</code>, and previously baked-in active gene optimization can be delegated to <code>tune</code> and <code>yardstick</code>.</p>
+<p>Finally, <code>reclanc</code> allows for prediction based on centroid <em>correlation</em>, rather than centroid <em>distance</em>. This is particularly useful for samples that might be scaled differently, or come from different sequencing platforms.</p>
+
+</body>
+</html>
