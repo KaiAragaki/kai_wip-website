@@ -7,6 +7,7 @@ categories: []
 tags:
   - blog
 format: hugo-md
+description: 'Laying the foundation: deriving standard deviation for ourselves'
 ---
 
 
