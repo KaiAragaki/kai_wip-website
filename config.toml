@@ -11,7 +11,7 @@ unsafe = true # For Quarto
 mode = "dark"
 useCDN = false
 mathjax = true
-katex = true
+katex = false
 customcss = ["css/custom.css"]
 
 [[params.social]]
