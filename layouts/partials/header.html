@@ -46,23 +46,26 @@
 
 	<!-- Mathjax support -->
 	{{ with .Site.Params.mathjax }}
-		<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-		</script>
+       <script type="text/javascript" id="MathJax-script" async
+			   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+	   </script>
 	
 		<!-- inline Mathjax -->
-		<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-			tex2jax: {
-				inlineMath: [['$','$'], ['\\(','\\)']],
-				displayMath: [['$$','$$'], ['\[','\]']],
-				processEscapes: true,
-				processEnvironments: true,
-				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-				TeX: { equationNumbers: { autoNumber: "AMS" },
-						 extensions: ["AMSmath.js", "AMSsymbols.js"] }
-			}
-		});
+		<script>
+			MathJax = {
+				tex: {
+					inlineMath: [['$', '$'], ['\\(', '\\)']]
+				},
+				options: {
+					skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+				}
+			};
+
+			window.addEventListener('load', (event) => {
+				document.querySelectorAll("mjx-container").forEach(function(x){
+					x.parentElement.classList += 'has-jax'})
+			});
+
 		</script>
 	{{ end }}
 
@@ -82,7 +85,7 @@
 							]
 					});
 			});
-			</script>
+		</script>
 	{{ end }}
 	
 	<!-- Custom CSS style get applied last -->
