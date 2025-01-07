@@ -1,5 +1,5 @@
 ---
-title: 'Deviance Deep Dive: Part II'
+title: 'Deviation Deep Dive: Part II'
 author: Kai
 date: '2025-01-06'
 slug: []

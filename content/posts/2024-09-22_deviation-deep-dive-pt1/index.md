@@ -1,5 +1,5 @@
 ---
-title: 'Deviance Deep Dive: Part I'
+title: 'Deviation Deep Dive: Part I'
 author: Kai
 date: '2024-09-22'
 slug: []
@@ -46,9 +46,9 @@ sqrt(mean((x - mu)^2)) # sum(x)/length(x) = mean
 
 Even still, *why* this formula the way it is isn't immediately obvious.
 
-First of all, why do we care about measuring deviance?
+First of all, why do we care about measuring deviation?
 
-Deviance is a good thing to measure: it's a measure of how squirrely the numbers are. For instance, it tells us a little bit about the reliability of a value. If we know that our weatherman is *on average* correct, but his variability is huge, you might prefer a weatherman who - while not entirely accurate - won't tell you that it's going to be 1000F out today, up from yesterdays -900F.
+Deviation is a good thing to measure: it's a measure of how squirrely the numbers are. For instance, it tells us a little bit about the reliability of a value. If we know that our weatherman is *on average* correct, but his variability is huge, you might prefer a weatherman who - while not entirely accurate - won't tell you that it's going to be 1000F out today, up from yesterdays -900F.
 
 ## Developing SD From Ground Up
 
