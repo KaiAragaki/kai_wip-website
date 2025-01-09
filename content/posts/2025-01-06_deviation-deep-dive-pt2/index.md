@@ -122,7 +122,7 @@ n <- 30
 n_samples <- 100000
 samples <- replicate(n_samples, rnorm(n = n, sd = sd), simplify = FALSE)
 
-# Let's at some values of a sample:
+# Let's look at some values of a sample:
 samples[[1]][1:10]
 ```
 
@@ -130,6 +130,7 @@ samples[[1]][1:10]
      [7]  5.2472810  0.8450794 -1.2777123 -2.6700292
 
 ``` r
+# And a quick plot for good measure:
 single_sample <- data.frame(x = samples[[1]])
 ggplot(single_sample, aes(x)) +
   geom_histogram() +
