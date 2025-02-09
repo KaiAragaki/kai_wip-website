@@ -464,11 +464,11 @@ where $a$ is a constant.
 Using the rearranged formula from the previous section and substituting $aX$ for everywhere we see $X$:
     
 \begin{align*}
-Var(aX) &= E[(aX)^2]- (E[aX])^2 \\
-&= E[a^2X^2]- (E[aX])^2 \\
-&= a^2E[X^2]- (aE[X])^2 \\
-&= a^2E[X^2]- a^2(E[X])^2 \\
-&= a^2(E[X^2]- (E[X])^2) \\
+Var(aX) &= E[(aX)^2]- (E[aX])^2 \\\
+&= E[a^2X^2]- (E[aX])^2 \\\
+&= a^2E[X^2]- (aE[X])^2 \\\
+&= a^2E[X^2]- a^2(E[X])^2 \\\
+&= a^2(E[X^2]- (E[X])^2) \\\
 &= a^2Var(X)
 \end{align*}
 
