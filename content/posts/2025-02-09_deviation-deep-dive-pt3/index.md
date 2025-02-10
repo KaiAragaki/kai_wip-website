@@ -18,7 +18,7 @@ ACCENT <- "#f7d060"
 
 # Introduction
 
-In previous blog posts [[1](https://kai.rbind.io/posts/2024-09-22_deviation-deep-dive-pt1/)] [[2](https://kai.rbind.io/posts/2025-01-06_deviation-deep-dive-pt2/)], I've alluded to the fact that when we calculate the standard deviation, we sometimes divide by $n - 1$ (that is, one less than the number of samples we have) rather than $n$. This is known as 'Bessel's correction', and it's typically sneaked in after learning how to calculate the standard deviation, hopefully quickly enough so you won't notice. However, I think it's fairly common to ask why we do this, and the standard response is usually a mumbling answer along the lines of it being a correction factor, and that you should only do it if you're calculating the population's standard deviation rather than the sample's standard deviation, turning this corrective factor not only into a mysterious oddity, but now also part of a shadowy ritual. My thoughts to this answer were typically 'correction for what?' and 'wow that seems pretty haphazard', and usually resulted in me always dividing by $n-1$ and hoping nothing bad would happen.
+In previous blog posts [[1](https://kai.rbind.io/posts/2024-09-22_deviation-deep-dive-pt1/)] [[2](https://kai.rbind.io/posts/2025-01-06_deviation-deep-dive-pt2/)], I've alluded to the fact that when we calculate the standard deviation, we sometimes divide by $n - 1$ (that is, one less than the number of samples we have) rather than $n$. This is known as 'Bessel's correction', and it's typically sneaked in after learning how to calculate the standard deviation, hopefully quickly enough so you won't notice. However, I think it's fairly common to ask why we do this, and the standard response is usually a mumbling answer along the lines of it being a correction factor, and that you should only do it if you're estimating the standard deviation from a sample rather than using the whole population, turning this corrective factor not only into a mysterious oddity, but now also part of a shadowy ritual. My thoughts to this answer were typically 'correction for what?' and 'wow that seems pretty haphazard', and usually resulted in me always dividing by $n-1$ and hoping nothing bad would happen.
 
 During my quest for enlightenment, I came across several different explanations, with varying levels of detail and coherence, which I'll explain back to you in order of increasing detail. I very much regret this endeavor.
 
@@ -81,7 +81,7 @@ ggplot(plotting_data, aes(value, replicate, color = 1)) +
 
 Each replicate has 10 values in it, sampled from a normal distribution with a mean of 0 and a standard deviation of 10.
 
-However, just because it was *sampled* from a distribution with those parameters doesn't mean that the *samples themselves* will have those parameters on average, so let's check it out:
+However, just because it was *sampled* from a distribution with those parameters doesn't mean that the *samples themselves* will have those parameters on average (that is to say, the sampling distribution isn't guaranteed to have a mean equal to the population statistic, aka [bias](https://en.wikipedia.org/wiki/Bias_of_an_estimator)), so let's check it out:
 
 ``` r
 # We're creating our own functions because R's automatically applies Bessel's
@@ -113,7 +113,7 @@ ggsave("sds.png", plot, dpi = 300, width = 4, height = 4, units = "in")
 </details>
 <img style="width:50%;" src="sds.png" />
 
-In this figure I'm showing the distribution of the calculated standard deviations (without correction!!) for all 100,000 samples. The dotted line represents the mean of the distribution, while the solid line represents the true population standard deviation. As you can tell, it's being a bit underestimated.
+In this figure I'm showing the distribution of the calculated sample standard deviations (without correction!!) for all 100,000 samples. The dotted line represents the mean of the sampling distribution, while the solid line represents the true population standard deviation. As you can tell, it's being a bit underestimated.
 
 What about if we use Bessel's correction?
 
@@ -182,14 +182,14 @@ ggsave("vars_w_bessel.png", plot, dpi = 300, width = 4, height = 4, units = "in"
 <img style="width:50%;" src="vars_w_bessel.png" />
 
 
-You'll notice that while variance was consistently underestimated before Bessel's correction, it lined up exactly after we used Bessel's correction. I'll talk about this briefly in the conclusion, but for now I think we are forced to agree that Bessel's correction is doing *something* good, and is worth investigating further.
+You'll notice that while the sample variance consistently underestimated the population variance before Bessel's correction, it lined up nearly exactly after we used Bessel's correction. We are forced to agree that Bessel's correction is doing *something* good, and is worth investigating further.
 
 
 # Explanation II: It accounts for reusing data
 
 Besides the explanation of 'it just does work, do it' (which is, admittedly, not an explanation but rather a motivation), we can explain Bessel's correction in terms of combating 'data-reuse'.
 
-When calculating the standard deviation, we find the differences between the mean and a given value. No worries if we know the mean of the population, but in my forays with statistics this is an incredibly rare scenario. Much more likely is that we are forced to use the mean of the *sample*, then calculate the standard deviation using the differences of the values of the sample and the mean of the sample.
+When calculating the standard deviation, we find the differences between the mean and a given value. No worries if we know the mean of the population, but in my forays with statistics this is an incredibly rare scenario. Much more likely is that we are forced to use the mean of the *sample*, then estimate the population standard deviation using the differences of the values of the sample and the mean of the sample.
 
 As we explored a bit in [the first blog post of this series](https://kai.rbind.io/posts/2024-09-22_deviation-deep-dive-pt1/), variance is defined in large part by the distances of the values from the mean, usually either the sample mean or the population mean. As it turns out, the variance is minimized when that value is the mean of the sample.
 
@@ -257,13 +257,13 @@ We can see that the first term is our original definition of variance. The secon
 
 Since you either blindly believe me or have been convinced that measuring all the distances from the sample mean results in the smallest variance, we can now consider the implications.
 
-For any given sample, the sample mean will almost never be the population mean. If the sample mean will always give the lowest variance, the population mean (the thing we would use to calculate variance if we knew it because it gives us the correct result) will always give a higher variance (except in the case in which it is exactly equal, which is unlikely).
+For any given sample, the sample mean will almost never be the population mean. If the sample mean will always give the lowest variance, the population mean (the thing we would use to estimate population variance if we knew it because it gives us an unbiased result) will always give a higher variance (except in the case in which it is exactly equal, which is unlikely).
 
 Intuitively, this has been described as painting a target around a bunch of bullet holes, rather than shooting at a target. You're peeking at the future and then wondering why you're correct all the time.
 
 This is usually where the concept of 'degrees of freedom' gets invoked. If someone tells you that you can pick any 5 numbers, so long as they have a mean of, say, 20, you're free to do whatever you want to do with 4 of them - but that last one has to pick up the bill to get the mean to be 20. That is, there are only 4 values that are 'free to vary' - only 4 *degrees of freedom*.
 
-This is true for an arbitrary mean and an arbitrary number of values - you will always have $n-1$ degrees of freedom if you are calculating a new statistic reusing old information (in the case of variance, the sample mean isn't truly free to vary: it is bound by the sample). So it's kind of like instead of having $n$ values, you have $n-1$ values. Dividing by this inflates the variance a bit to combat the artificial deflation, and all is well in the world. Right?
+This is true for an arbitrary mean and an arbitrary number of values - you will always have $n-1$ degrees of freedom if you are calculating a new statistic reusing old information (in the case of sample variance, the sample mean isn't truly free to vary: it is bound by the sample). So it's kind of like instead of having $n$ values, you have $n-1$ values. Dividing by this inflates the variance a bit to combat the artificial deflation, and all is well in the world. Right?
 
 # Explanation III: For those suspicious of simplicity
 
@@ -366,7 +366,7 @@ That is to say, rather than divide by $n$ (undo dividing by $n$ by multiplying i
 
 # Do we need Bessel's correction at all?
 
-'It depends'. Of course it does. Bessel's correction removes bias (that is, the difference between the true statistic and the estimated statistic) for variance, so in the case where theoretical perfection is required, this might be preferred. Indeed, the theory behind it is pretty interesting! However, it doesn't completely remove bias in the case of standard deviation (as we saw in some of our first plots), and it's frankly confusing as hell. Jeffery Rosenthal wrote a [beautiful article](https://imstat.org/2015/11/17/the-kids-are-alright-divide-by-n-when-estimating-variance/) summarizing the challenges of teaching Bessel's correction, and mentioned that the smallest mean-squared-error results not from dividing by $n-1$, or even $n$, but $n+1$. As such, it might be best to leave Bessel's correction as a theoretical curiosity for more advanced studies, stick with dividing by $n$ for didactic purposes, and $n+1$ for applications that require the smallest MSE. However, I hope this post at least helps explain the why and how $n-1$ came to be in the first place, since it is still very much present.
+'It depends'. Of course it does. Bessel's correction removes bias (that is, the difference between the true statistic and the mean of the distribution of estimated statistics) for variance, so in the case where theoretical perfection is required, this might be preferred. Indeed, the theory behind it is pretty interesting! However, it doesn't completely remove bias in the case of standard deviation (as we saw in some of our first plots), and it's frankly confusing as hell. Jeffery Rosenthal wrote a [beautiful article](https://imstat.org/2015/11/17/the-kids-are-alright-divide-by-n-when-estimating-variance/) summarizing the challenges of teaching Bessel's correction, and mentioned that the smallest mean-squared-error results not from dividing by $n-1$, or even $n$, but $n+1$. As such, it might be best to leave Bessel's correction as a theoretical curiosity for more advanced studies, stick with dividing by $n$ for didactic purposes, and $n+1$ for applications that require the smallest MSE. However, I hope this post at least helps explain the why and how $n-1$ came to be in the first place, since it is still very much present.
 
 # Appendix
 
@@ -591,3 +591,6 @@ Nice proof of Bienaymé's formula:
 
 -   <https://stats.stackexchange.com/a/31181>
     
+# Acknowledgments
+
+Thanks to rigor for helping me think about, then understand the difference between calculating/estimating statistics/samples
