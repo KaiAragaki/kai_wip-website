@@ -1,13 +1,27 @@
-:root{
---maincolor: red;
---bordercl: #F7D060;
---callouctcolor:dodgerblue;
---hovercolor:navy;
---darkMaincolor: #F7D060;
+:root {
+  --maincolor: red;
+  --bordercl: #f7d060;
+  --callouctcolor: dodgerblue;
+  --hovercolor: navy;
+  --darkMaincolor: #f7d060;
+}
+
+p {
+  font-size: 16px;
+  text-align: justify;
+  line-height: 1.5em;
+}
+
+table td {
+  font-size: 12px;
+}
+
+table th {
+  font-size: 12px;
 }
 
 ::selection {
-  background: #F7D060;
+  background: #f7d060;
   color: #000;
   text-shadow: none;
 }
@@ -23,11 +37,11 @@ img {
 }
 
 .floatright {
-  float:right;
+  float: right;
   padding: 0 0 0 10px;
 }
 
 .floatleft {
-  float:left;
+  float: left;
   padding: 0 10px 0 0;
 }
