@@ -36,6 +36,12 @@ img {
   max-width: 100%;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .floatright {
   float: right;
   padding: 0 0 0 10px;
@@ -44,4 +50,10 @@ img {
 .floatleft {
   float: left;
   padding: 0 10px 0 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 3rem;
+  color: #f7d060;
 }
