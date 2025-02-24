@@ -19,6 +19,10 @@ name = "GitHub"
 icon = "github"
 url = "https://github.com/KaiAragaki"
 
+[markup]
+  [markup.highlight]
+    style = 'gruvbox'
+
 [[menu.main]]
 name = "Home"
 url = "/tags/blog"

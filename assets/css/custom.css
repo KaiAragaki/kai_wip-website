@@ -57,3 +57,17 @@ h1 {
   line-height: 3rem;
   color: #f7d060;
 }
+
+details {
+  color: #777;
+}
+
+pre {
+  background-color: #212121 !important;
+  border: 1px solid #f7d060 !important;
+}
+
+.highlight pre ::before {
+  background-color: #f7d060 !important;
+  color: black !important;
+}
