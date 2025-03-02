@@ -48,7 +48,8 @@ img {
 .center {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  column-gap: 2em;
 }
 
 .floatright {
@@ -79,4 +80,8 @@ pre {
 .highlight pre ::before {
   background-color: #f7d060 !important;
   color: black !important;
+}
+
+.show {
+  flex: 0 0 auto;
 }
