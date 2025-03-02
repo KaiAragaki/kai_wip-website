@@ -1,0 +1,8 @@
+{{- $class := or (.Get "class") "" }}
+{{- $summary := or (.Get "summary") "Code" }}
+
+<details class="showntellcode">
+  <summary>{{ $summary }}</summary>
+
+  {{ .Inner }}
+</details>
