@@ -14,10 +14,19 @@ p {
 
 table td {
   font-size: 12px;
+  padding: 0.1em 1em !important;
 }
 
 table th {
   font-size: 12px;
+  background: #ddd;
+  color: black;
+  border-bottom: 1px solid #222;
+  padding: 0.1em 1em !important;
+}
+
+table th:first-child {
+  border-right: 1px solid #222;
 }
 
 ::selection {
