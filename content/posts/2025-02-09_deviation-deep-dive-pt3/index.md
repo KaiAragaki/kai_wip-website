@@ -219,7 +219,7 @@ One clever trick we can do to get this in terms of the variance definition we kn
 \begin{aligned}
 \newcommand\xb{\bar{X}}
 \newcommand\a{\textcolor{red}{(X-\xb)}}
-\newcommand\b{\textcolor{blue}{(\xb - c)}}
+\newcommand\b{\textcolor{dodgerblue}{(\xb - c)}}
 E\big[(X-c)^2\big] &= E\big[(X \textcolor{goldenrod}{ - \xb + \xb} - c)^2\big] \\\
 &= E\Big[\big(\a + \b\big)^2\Big] \\\
 &= E\big[\a^2 + 2\a\b + \b^2\big] \\\
@@ -289,15 +289,15 @@ Our goal, ultimately, is to find  $E[s^2]$ in terms of $\sigma^2$ and then see b
 E[s^2] &= E[\hl{\fr} \sm(X_i - \xb)^2]\\\
 &\overset{1}= \hl{\fr} E[\sm(X_i - \xb)^2]\\\
 &= \fr E[\sm X_i^2 + \sm(\hl{-2}X_i\hl{\xb}) + \hl{\sm \xb^2}]\\\
-&= \fr E[\sm X_i^2 - \hl{2\xb}\textcolor{blue}{\sm X_i} + \hl{n\xb^2}]\\\
-&= \fr E[\sm X_i^2 - 2\xb\textcolor{blue}{n\xb} + n\xb^2]\\\
+&= \fr E[\sm X_i^2 - \hl{2\xb}\textcolor{dodgerblue}{\sm X_i} + \hl{n\xb^2}]\\\
+&= \fr E[\sm X_i^2 - 2\xb\textcolor{dodgerblue}{n\xb} + n\xb^2]\\\
 &= \fr E[\sm X_i^2 - 2n\xb^2 + n\xb^2]\\\
 &= \fr E[\sm X_i^2 - n\xb^2]\\\
 &\overset{1}= \fr \Big(E[\sm X_i^2] - E[\hl{n}\xb^2]\Big)\\\
 &\overset{1}= \fr \Big(E[\sm X_i^2] - \hl{n}E[\xb^2]\Big)\\\
 &= \fr E[\sm X_i^2] - E[\xb^2]\\\
 &\overset{1}= \fr \sm E[X_i^2] - E[\xb^2]\\\
-&= \textcolor{red}{E[X_i^2]} - \textcolor{blue}{E[\xb^2]}\\\
+&= \textcolor{red}{E[X_i^2]} - \textcolor{dodgerblue}{E[\xb^2]}\\\
 \end{align*}
 
 Since
@@ -323,7 +323,7 @@ $Var(X_i) = \sigma^2$ and $E[X_i] = \mu$ (note that $X_i$ is not a value but rat
 Using the same equation above but substituting $\bar{X}$ for $X$ instead of $X_i$ for $X$, we get:
 
 \begin{align*}
-\textcolor{blue}{E[\bar{X}^2]} = \textcolor{green}{Var(\bar{X})} + E[\bar{X}]^2
+\textcolor{dodgerblue}{E[\bar{X}^2]} = \textcolor{green}{Var(\bar{X})} + E[\bar{X}]^2
 \end{align*}
 
 $Var(\bar{X})$ is a bit different than $Var(X_i)$, but can be simplified like so:
@@ -340,7 +340,7 @@ $Var(\bar{X})$ is a bit different than $Var(X_i)$, but can be simplified like so
 Plugging this back into the equation, we get:
 
 \begin{align*}
-\textcolor{blue}{E[\bar{X}^2]} &= \textcolor{green}{Var(\bar{X})} + E[\bar{X}]^2 \\\
+\textcolor{dodgerblue}{E[\bar{X}^2]} &= \textcolor{green}{Var(\bar{X})} + E[\bar{X}]^2 \\\
 &= \textcolor{green}{\frac{\sigma^2}{n}} + E[\bar{X}]^2 \\\
 &= \frac{\sigma^2}{n} + \mu^2 \\\
 \end{align*}
@@ -348,8 +348,8 @@ Plugging this back into the equation, we get:
 So, substituting these for $E[X_i^2]$ and $E[\bar{X}^2]$, we get
 
 \begin{align*}
-E[s^2] &= \textcolor{red}{E[X_i^2]} - \textcolor{blue}{E[\bar{X}^2]} \\\
-&= \textcolor{red}{(\sigma^2 + \mu^2)} - \textcolor{blue}{(\frac{\sigma^2}{n} + \mu^2)} \\\
+E[s^2] &= \textcolor{red}{E[X_i^2]} - \textcolor{dodgerblue}{E[\bar{X}^2]} \\\
+&= \textcolor{red}{(\sigma^2 + \mu^2)} - \textcolor{dodgerblue}{(\frac{\sigma^2}{n} + \mu^2)} \\\
 &= \sigma^2 - \frac{\sigma^2}{n} \\\
 &= \sigma^2 (1-\frac{1}{n}) \\\
 &= \sigma^2 \frac{n-1}{n}
