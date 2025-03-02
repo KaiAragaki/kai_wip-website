@@ -1,0 +1,16 @@
+[project]
+name = "2025-02-21-slowest-linefit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "altair>=5.5.0",
+    "kai-theme",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.6.1",
+    "vl-convert-python>=1.7.0",
+]
+
+[tool.uv.sources]
+kai-theme = { git = "https://github.com/KaiAragaki/kaipymeleon" }
