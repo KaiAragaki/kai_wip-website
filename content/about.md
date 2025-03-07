@@ -5,7 +5,9 @@ date: 2024-03-03
 
 <img src="/images/me.jpg" height="150" class="floatleft"/>
 
-I'm Kai Aragaki. I'm currently a pharmacology PhD candidate at Johns Hopkins, on track to graduate in 2024. 
+I'm Kai Aragaki. I'm currently a postdoc at Lund University doing bioinformatics for cancer research.
+
+Previously, I got my PhD in Pharmacology and Molecular Sciences at Johns Hopkins, where I studied bladder cancer.
 
 I have significant experience in both wet-lab and dry-lab techniques, and always delighted to learn more whenever possible. I have about 8 years of wet lab experience, and about 7 years of experience with R.
 
