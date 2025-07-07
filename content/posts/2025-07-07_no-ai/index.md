@@ -35,7 +35,6 @@ Not indented outcomes:
 2.  Making you feel bad. This is, at worst, venting &#x2013; not punitive.
 3.  Produce a definitive and/or objective answer. The issues discussed here tie in with issues as big as &rsquo;being alive&rsquo;. I don&rsquo;t think an objective answer exists and regardless we aren&rsquo;t going to crack it here.
 
-Let&rsquo;s dive in.
 
 
 <a id="org0385552"></a>
