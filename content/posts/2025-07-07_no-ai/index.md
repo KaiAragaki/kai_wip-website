@@ -155,7 +155,7 @@ I&rsquo;m still unclear how big of an impact generative model training and usage
 
 # Conclusion
 
-I thought about writing about how I don&rsquo;t like the projected future of AI &#x2013; that is, the projections given by Sam Altman and the like &#x2013; but frankly I find their posturing more irritating than substantive and I&rsquo;ve had this blog post weighing on me for weeks now and just want to get it off my chest. There&rsquo;s some other stuff I wanted to touch on too, like how my colleagues who speak English as a second language use it to help with their phrasing. Short answer (deep breath): I&rsquo;d rather have the raw version with some mistakes but I understand that might put these people at a disadvantage professionally, and I don&rsquo;t know how to solve that and it seems like a larger cultural issue but I don&rsquo;t know what to do in the meantime.
+I considered writing about how I don&rsquo;t like the projected future of AI &#x2013; that is, the projections given by Sam Altman and the like &#x2013; but frankly I find their posturing more simply irritating than substantive and I&rsquo;ve had this blog post weighing on me for weeks now and just want to get it off my chest. There&rsquo;s some other stuff I wanted to touch on too, like how my colleagues who speak English as a second language use it to help with their phrasing. Short answer (deep breath): I&rsquo;d rather have the raw version with some mistakes but I understand that might put these people at a disadvantage professionally, and I don&rsquo;t know how to solve that and it seems like a larger cultural issue but I don&rsquo;t know what to do in the meantime.
 
 Bottom line? Don&rsquo;t like genAI models. Sorry. 
 
